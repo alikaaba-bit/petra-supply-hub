@@ -25,6 +25,12 @@ import {
   AlertTriangle,
   Activity,
   RefreshCw,
+  Truck,
+  ClipboardList,
+  BarChart3,
+  Users,
+  Clipboard,
+  Warehouse,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -66,6 +72,21 @@ const navSections = [
     ],
   },
   {
+    label: "Tracking",
+    items: [
+      {
+        title: "Supplier Orders",
+        href: "/tracking/supplier-orders",
+        icon: Truck,
+      },
+      {
+        title: "Retail Orders",
+        href: "/tracking/retail-orders",
+        icon: ClipboardList,
+      },
+    ],
+  },
+  {
     label: "Data",
     items: [
       {
@@ -92,6 +113,31 @@ const navSections = [
         title: "Retail Orders",
         href: "/orders/retail-orders",
         icon: ShoppingBag,
+      },
+    ],
+  },
+  {
+    label: "Role Views",
+    items: [
+      {
+        title: "CEO Overview",
+        href: "/roles/ceo",
+        icon: BarChart3,
+      },
+      {
+        title: "Sales View",
+        href: "/roles/sales",
+        icon: Users,
+      },
+      {
+        title: "Purchasing View",
+        href: "/roles/purchasing",
+        icon: Clipboard,
+      },
+      {
+        title: "Warehouse View",
+        href: "/roles/warehouse",
+        icon: Warehouse,
       },
     ],
   },
