@@ -100,10 +100,10 @@
 | FND-03 | Phase 1 | Complete |
 | FND-04 | Phase 1 | Complete |
 | UX-04 | Phase 1 | Complete |
-| DAT-01 | Phase 2 | Pending |
-| DAT-03 | Phase 2 | Pending |
-| DAT-04 | Phase 2 | Pending |
-| DAT-05 | Phase 2 | Pending |
+| DAT-01 | Phase 2 | Complete |
+| DAT-03 | Phase 2 | Complete |
+| DAT-04 | Phase 2 | Complete |
+| DAT-05 | Phase 2 | Complete |
 | DAT-02 | Phase 3 | Pending |
 | DEM-01 | Phase 3 | Pending |
 | DEM-02 | Phase 3 | Pending |
