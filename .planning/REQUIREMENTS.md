@@ -20,13 +20,6 @@
 - [ ] **ORD-03**: Lead time visibility showing order-by dates and expected arrival dates per SKU (30-day for Fomin/Luna/EveryMood/Roofus, 60-day for HOP)
 - [ ] **ORD-04**: PO lifecycle timeline — visual pipeline: ordered → in production → shipped → in transit → arrived at warehouse → allocated
 
-### Cash Flow
-
-- [ ] **CFW-01**: Deposit schedule showing all upcoming deposits across brands by date in both RMB and USD
-- [ ] **CFW-02**: Total capital requirements aggregated across all brands by week and month
-- [ ] **CFW-03**: Payment tracking showing which retailer invoices have been paid vs outstanding
-- [ ] **CFW-04**: Cash flow timeline visualizing deposit → pre-shipment → shipment payment milestones per PO
-
 ### Dashboard & UX
 
 - [ ] **UX-01**: Brand selector allowing users to view all brands or filter to a single brand
@@ -51,6 +44,12 @@
 - [ ] **FND-04**: Audit log tracking who changed what data and when
 
 ## v2 Requirements
+
+### Cash Flow (Deferred from v1)
+- **CFW-01**: Deposit schedule showing all upcoming deposits across brands by date in both RMB and USD
+- **CFW-02**: Total capital requirements aggregated across all brands by week and month
+- **CFW-03**: Payment tracking showing which retailer invoices have been paid vs outstanding
+- **CFW-04**: Cash flow timeline visualizing deposit → pre-shipment → shipment payment milestones per PO
 
 ### Mobile & Accessibility
 - **MOB-01**: Mobile-responsive design for phones and tablets
@@ -100,35 +99,34 @@
 | FND-02 | Phase 1 | Pending |
 | FND-03 | Phase 1 | Pending |
 | FND-04 | Phase 1 | Pending |
+| UX-04 | Phase 1 | Pending |
 | DAT-01 | Phase 2 | Pending |
-| DAT-02 | Phase 3 | Pending |
 | DAT-03 | Phase 2 | Pending |
 | DAT-04 | Phase 2 | Pending |
 | DAT-05 | Phase 2 | Pending |
+| DAT-02 | Phase 3 | Pending |
 | DEM-01 | Phase 3 | Pending |
 | DEM-02 | Phase 3 | Pending |
 | DEM-03 | Phase 3 | Pending |
 | DEM-04 | Phase 3 | Pending |
 | DEM-05 | Phase 3 | Pending |
+| UX-01 | Phase 3 | Pending |
+| UX-03 | Phase 3 | Pending |
+| UX-05 | Phase 3 | Pending |
 | ORD-01 | Phase 4 | Pending |
 | ORD-02 | Phase 4 | Pending |
 | ORD-03 | Phase 4 | Pending |
 | ORD-04 | Phase 4 | Pending |
-| CFW-01 | Phase 5 | Pending |
-| CFW-02 | Phase 5 | Pending |
-| CFW-03 | Phase 5 | Pending |
-| CFW-04 | Phase 5 | Pending |
-| UX-01 | Phase 3 | Pending |
 | UX-02 | Phase 4 | Pending |
-| UX-03 | Phase 3 | Pending |
-| UX-04 | Phase 1 | Pending |
-| UX-05 | Phase 3 | Pending |
 
 **Coverage:**
-- v1 requirements: 26 total
-- Mapped to phases: 26
+- v1 requirements: 23 total
+- Mapped to phases: 23
 - Unmapped: 0 ✓
+
+**Deferred:**
+- CFW-01, CFW-02, CFW-03, CFW-04 moved to v2 (next session)
 
 ---
 *Requirements defined: 2026-02-06*
-*Last updated: 2026-02-06 after initial definition*
+*Last updated: 2026-02-06 after roadmap revision*
