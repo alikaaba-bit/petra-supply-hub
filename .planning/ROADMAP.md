@@ -14,7 +14,7 @@ This roadmap transforms Petra Brands from scattered Excel spreadsheets to a unif
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation & Master Data** - Database schema, authentication, and core data structures
+- [x] **Phase 1: Foundation & Master Data** - Database schema, authentication, and core data structures
 - [ ] **Phase 2: Data Integration & Manual Entry** - Excel import, manual entry fallback, and data validation
 - [ ] **Phase 3: SellerCloud Integration & Demand Visibility** - API integration, demand vs supply calculations, and executive dashboard
 - [ ] **Phase 4: Order Tracking & Role-Based Views** - PO lifecycle tracking, supplier and retail order management, role-specific dashboards
@@ -38,9 +38,9 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 3 plans in 3 waves (sequential)
 
 Plans:
-- [ ] 01-01-PLAN.md — Project scaffolding, database schema (15 tables), and connection pooling
-- [ ] 01-02-PLAN.md — Auth.js authentication, tRPC API layer, master data routers, and audit triggers
-- [ ] 01-03-PLAN.md — Dashboard UI with sidebar, master data CRUD pages, seed data, and audit viewer
+- [x] 01-01-PLAN.md — Project scaffolding, database schema (16 tables), and connection pooling
+- [x] 01-02-PLAN.md — Auth.js authentication, tRPC API layer, master data routers, and audit triggers
+- [x] 01-03-PLAN.md — Dashboard UI with sidebar, master data CRUD pages, seed data, and audit viewer
 
 ### Phase 2: Data Integration & Manual Entry
 **Goal**: Enable team to input forecast and sales data through Excel uploads and manual entry, with validation to prevent bad data
@@ -117,7 +117,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Master Data | 0/3 | Planned | - |
+| 1. Foundation & Master Data | 3/3 | ✓ Complete | 2026-02-06 |
 | 2. Data Integration & Manual Entry | 0/TBD | Not started | - |
 | 3. SellerCloud Integration & Demand Visibility | 0/TBD | Not started | - |
 | 4. Order Tracking & Role-Based Views | 0/TBD | Not started | - |
