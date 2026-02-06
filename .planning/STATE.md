@@ -10,19 +10,19 @@ See: .planning/PROJECT.md (updated 2026-02-06)
 
 ## Current Position
 
-Phase: 4 of 4 (Order Tracking & Role-Based Views) — PLANNED
-Plan: 0 of 3 (plans created, not yet executed)
-Status: Paused
-Last activity: 2026-02-06 — Phase 4 plans created and verified
+Phase: 4 of 4 (Order Tracking & Role-Based Views) — IN PROGRESS
+Plan: 1 of 3 (Wave 1 complete)
+Status: In progress
+Last activity: 2026-02-06 — Completed 04-01-PLAN.md
 
-Progress: [████████░░] 83%
+Progress: [█████████░] 92%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 10
-- Average duration: 7.0 min
-- Total execution time: ~1.2 hours
+- Total plans completed: 11
+- Average duration: 6.5 min
+- Total execution time: ~1.3 hours
 
 **By Phase:**
 
@@ -31,10 +31,11 @@ Progress: [████████░░] 83%
 | 01-foundation-master-data | 3/3 | 36min | 12min |
 | 02-data-integration-manual-entry | 3/3 | 21min | 7min |
 | 03-sellercloud-integration-demand-visibility | 4/4 | 14min | 3.5min |
+| 04-order-tracking-role-based-views | 1/3 | 3min | 3min |
 
 **Recent Trend:**
-- Last 5 plans: 03-01 (3min), 03-02 (3min), 03-03 (4min), 03-04 (4min)
-- Trend: Consistent fast execution in Phase 3 (all UI-focused plans)
+- Last 5 plans: 03-02 (3min), 03-03 (4min), 03-04 (4min), 04-01 (3min)
+- Trend: Consistent fast execution continuing into Phase 4
 
 *Updated after each plan completion*
 
@@ -89,6 +90,11 @@ Recent decisions affecting current work:
 - **03-04**: Nested route highlighting: Use pathname.startsWith for active detection (except root) to match multi-level nav
 - **03-04**: Demand health on main dashboard: Surfacing shortage/excess alerts immediately for increased visibility
 - **03-04**: Manual sync only: Explicit button triggers for PO/inventory sync; auto-scheduling deferred to Phase 4
+- **04-01**: 5-day buffer for order-by calculations: calculateOrderByDate subtracts (leadTimeDays + 5) from need-by date
+- **04-01**: StatusBadge semantic color scheme: Secondary for draft, default for in-progress, green for complete, destructive for cancelled
+- **04-01**: LeadTimeBadge urgency thresholds: Overdue (past) = red, urgent (<=7 days) = amber, normal (>7 days) = gray
+- **04-01**: POTimeline fixed 6-step lifecycle: ordered → confirmed → in_production → shipped → in_transit → arrived
+- **04-01**: Status summary uses PostgreSQL aggregation (COUNT + GROUP BY) for performance
 
 ### Pending Todos
 
@@ -115,7 +121,11 @@ None yet.
 - Navigation enhanced with 6 sections (Overview, Demand, Data, Orders, Master Data, System)
 - Must run `npm run db:push` to create sellercloud_sync_log and sellercloud_id_map tables
 - Vendor-to-brand mapping table needed for multi-brand PO sync
-- Ready for Phase 4 (if defined) or production deployment
+
+**Phase 4 in progress:**
+- Tracking tRPC router complete (10 routers total now)
+- 4 shared tracking UI components ready for tracking pages and role dashboards
+- Wave 1 complete (04-01), Wave 2 ready for execution (04-02, 04-03)
 
 **Change management:**
 - Non-technical team requires intuitive UI design from day one
@@ -124,10 +134,10 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-06 (Phase 3 complete + Phase 4 planning)
-Stopped at: Phase 4 plans created and verified (3 plans in 2 waves)
+Last session: 2026-02-06 (Phase 4 execution started)
+Stopped at: Completed 04-01-PLAN.md (Wave 1)
 Resume file: None
-Resume with: `/gsd:execute-phase 4` to execute Phase 4
+Resume with: Continue Phase 4 Wave 2 (04-02, 04-03)
 Plans completed:
   - 01-01-PLAN.md: Project scaffolding, database schema, connection pooling ✓
   - 01-02-PLAN.md: Auth.js v5, tRPC v11, audit triggers ✓
@@ -139,12 +149,12 @@ Plans completed:
   - 03-02-PLAN.md: Demand/alerts routers, PostgreSQL aggregation, all Phase 3 routers registered ✓
   - 03-03-PLAN.md: Demand dashboard pages (summary, by-retailer, by-sku) ✓
   - 03-04-PLAN.md: Executive summary, sync management, enhanced navigation ✓
+  - 04-01-PLAN.md: Tracking tRPC router, lead time utils, 4 shared UI components ✓
 Plans ready (not yet executed):
-  - 04-01-PLAN.md: Tracking tRPC router, lead time utils, 4 shared UI components (Wave 1)
   - 04-02-PLAN.md: Supplier PO tracking + retail order tracking pages (Wave 2)
   - 04-03-PLAN.md: 4 role-based dashboards + sidebar navigation update (Wave 2)
 Phase 1 status: Complete (verified)
 Phase 2 status: Complete (verified - 5/5 success criteria)
 Phase 3 status: Complete (verified - 9/9 success criteria)
-Phase 4 status: Planned (3 plans, ready for execution)
-Next: `/gsd:execute-phase 4`
+Phase 4 status: In progress (1/3 complete - Wave 1 done)
+Next: Execute 04-02 and 04-03 (Wave 2)
