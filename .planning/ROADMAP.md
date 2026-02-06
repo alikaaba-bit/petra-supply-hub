@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation & Master Data** - Database schema, authentication, and core data structures
 - [x] **Phase 2: Data Integration & Manual Entry** - Excel import, manual entry fallback, and data validation
-- [ ] **Phase 3: SellerCloud Integration & Demand Visibility** - API integration, demand vs supply calculations, and executive dashboard
+- [x] **Phase 3: SellerCloud Integration & Demand Visibility** - API integration, demand vs supply calculations, and executive dashboard
 - [ ] **Phase 4: Order Tracking & Role-Based Views** - PO lifecycle tracking, supplier and retail order management, role-specific dashboards
 
 ## Phase Details
@@ -84,10 +84,10 @@ Plans:
 **Plans**: 4 plans in 3 waves
 
 Plans:
-- [ ] 03-01-PLAN.md — SellerCloud API client with retry/backoff, sync tracking schema, sync tRPC router
-- [ ] 03-02-PLAN.md — Demand aggregation tRPC router (cross-brand, retailer, SKU) and alerts calculation router
-- [ ] 03-03-PLAN.md — Demand dashboard pages (cross-brand summary, retailer breakdown, SKU drill-down) with brand selector
-- [ ] 03-04-PLAN.md — Executive summary page, sync management page, sidebar navigation update
+- [x] 03-01-PLAN.md — SellerCloud API client with retry/backoff, sync tracking schema, sync tRPC router
+- [x] 03-02-PLAN.md — Demand aggregation tRPC router (cross-brand, retailer, SKU) and alerts calculation router
+- [x] 03-03-PLAN.md — Demand dashboard pages (cross-brand summary, retailer breakdown, SKU drill-down) with brand selector
+- [x] 03-04-PLAN.md — Executive summary page, sync management page, sidebar navigation update
 
 ### Phase 4: Order Tracking & Role-Based Views
 **Goal**: Track complete PO lifecycle from China suppliers and retail customers, with role-specific dashboard views for each team member type
@@ -119,5 +119,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Foundation & Master Data | 3/3 | ✓ Complete | 2026-02-06 |
 | 2. Data Integration & Manual Entry | 3/3 | ✓ Complete | 2026-02-06 |
-| 3. SellerCloud Integration & Demand Visibility | 0/4 | Not started | - |
+| 3. SellerCloud Integration & Demand Visibility | 4/4 | ✓ Complete | 2026-02-06 |
 | 4. Order Tracking & Role-Based Views | 0/TBD | Not started | - |
