@@ -31,7 +31,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Success Criteria** (what must be TRUE):
   1. Database schema exists supporting 5 brands, 160 SKUs, 12 retailers, with tables for forecasts, POs, inventory, and payments
   2. Users can log in with assigned roles (CEO, sales, purchasing, warehouse) and access the dashboard
-  3. Master data tables contain canonical reference data for all brands, SKUs, and retailers loaded from Google Sheets source
+  3. Master data tables contain canonical reference data for all 5 brands and ~16 retailers with real names/codes, plus ~158 representative placeholder SKUs (real SKU data imported via Phase 2 Excel upload)
   4. Audit log captures who changed what data and when, visible to authorized users
   5. Dashboard UI displays clean, visual design that non-technical team members can navigate without training
 
