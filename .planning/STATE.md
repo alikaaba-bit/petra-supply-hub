@@ -10,29 +10,30 @@ See: .planning/PROJECT.md (updated 2026-02-06)
 
 ## Current Position
 
-Phase: 1 of 4 (Foundation & Master Data)
-Plan: 3 of 3 (complete)
-Status: Phase 1 complete and verified (10/10 must-haves)
-Last activity: 2026-02-06 — Phase 1 verified, ready for Phase 2
+Phase: 2 of 4 (Data Integration & Manual Entry)
+Plan: 1 of 3 (backend infrastructure complete)
+Status: In progress - Wave 1 complete
+Last activity: 2026-02-06 — Completed 02-01-PLAN.md (backend infrastructure)
 
-Progress: [███░░░░░░░] 30%
+Progress: [████░░░░░░] 40%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 3
-- Average duration: 12 min
-- Total execution time: 0.60 hours
+- Total plans completed: 4
+- Average duration: 11.5 min
+- Total execution time: 0.77 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-foundation-master-data | 3/3 | 36min | 12min |
+| 02-data-integration-manual-entry | 1/3 | 10min | 10min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (20min), 01-02 (8min), 01-03 (8min)
-- Trend: Strong acceleration - Phase 1 complete
+- Last 5 plans: 01-01 (20min), 01-02 (8min), 01-03 (8min), 02-01 (10min)
+- Trend: Consistent velocity ~10min/plan
 
 *Updated after each plan completion*
 
@@ -57,6 +58,11 @@ Recent decisions affecting current work:
 - **01-03**: Count queries added to all routers for dashboard stat cards
 - **01-03**: SKUs generated programmatically (158 total) to prevent context exhaustion
 - **01-03**: Seed script made idempotent by checking existing records
+- **02-01**: Excel-first approach: Manual file uploads before SellerCloud API integration
+- **02-01**: Security re-validation pattern: Server Actions re-check IDs to prevent client tampering
+- **02-01**: Date serialization for Server Actions: Convert Date to ISO string for JSON wire transfer
+- **02-01**: Batch processing: 100 rows per batch to avoid oversized database queries
+- **02-01**: HOP parser flexibility: Adapts to unknown format with "Retailer - Month" or simple columns
 
 ### Pending Todos
 
@@ -71,6 +77,8 @@ None yet.
 - Login at http://localhost:3000/login with any user (password: admin123)
 
 **Phase 2 considerations:**
+- Database schema update required: Run `npm run db:push` to add retailSales table before sales import
+- Real HOP Excel files not yet available - HOP parser may need adjustment when format is known
 - SellerCloud API credentials pending from VPS setup (for future integration)
 - Excel forecast files need to be exported for import feature
 - Data quality in existing Excel files not yet audited (research flags 90% of spreadsheets contain errors)
@@ -82,12 +90,14 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-06 (Phase 1 execution)
-Stopped at: Completed 01-03-PLAN.md (Phase 1 complete)
+Last session: 2026-02-06 (Phase 2 execution)
+Stopped at: Completed 02-01-PLAN.md (backend infrastructure)
 Resume file: None
 Plans completed:
   - 01-01-PLAN.md: Project scaffolding, database schema, connection pooling ✓
   - 01-02-PLAN.md: Auth.js v5, tRPC v11, audit triggers ✓
   - 01-03-PLAN.md: Dashboard UI, master data CRUD pages, seed data ✓
+  - 02-01-PLAN.md: Excel parsers, validators, import service, Server Actions, tRPC routers ✓
 Phase 1 status: Complete
-Next phase: Phase 2 - Demand Forecasting & Import
+Phase 2 status: Wave 1 complete (1/3 plans)
+Next: Phase 2 Wave 2 - Import wizard UI (02-02) and Manual entry forms (02-03)
