@@ -18,35 +18,84 @@ import {
   Box,
   Store,
   FileText,
+  Upload,
+  TrendingUp,
+  ShoppingCart,
+  ShoppingBag,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const navItems = [
+const navSections = [
   {
-    title: "Dashboard",
-    href: "/",
-    icon: LayoutDashboard,
+    label: "Overview",
+    items: [
+      {
+        title: "Dashboard",
+        href: "/",
+        icon: LayoutDashboard,
+      },
+    ],
   },
   {
-    title: "Brands",
-    href: "/brands",
-    icon: Package,
+    label: "Data",
+    items: [
+      {
+        title: "Import",
+        href: "/import",
+        icon: Upload,
+      },
+      {
+        title: "Forecasts",
+        href: "/forecasts",
+        icon: TrendingUp,
+      },
+    ],
   },
   {
-    title: "SKUs",
-    href: "/skus",
-    icon: Box,
+    label: "Orders",
+    items: [
+      {
+        title: "Purchase Orders",
+        href: "/orders/purchase-orders",
+        icon: ShoppingCart,
+      },
+      {
+        title: "Retail Orders",
+        href: "/orders/retail-orders",
+        icon: ShoppingBag,
+      },
+    ],
   },
   {
-    title: "Retailers",
-    href: "/retailers",
-    icon: Store,
+    label: "Master Data",
+    items: [
+      {
+        title: "Brands",
+        href: "/brands",
+        icon: Package,
+      },
+      {
+        title: "SKUs",
+        href: "/skus",
+        icon: Box,
+      },
+      {
+        title: "Retailers",
+        href: "/retailers",
+        icon: Store,
+      },
+    ],
   },
   {
-    title: "Audit Log",
-    href: "/audit",
-    icon: FileText,
+    label: "System",
+    items: [
+      {
+        title: "Audit Log",
+        href: "/audit",
+        icon: FileText,
+      },
+    ],
   },
 ];
 
@@ -61,26 +110,28 @@ export function AppSidebar() {
         </div>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Navigation</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {navItems.map((item) => {
-                const isActive = pathname === item.href;
-                return (
-                  <SidebarMenuItem key={item.href}>
-                    <SidebarMenuButton asChild isActive={isActive}>
-                      <Link href={item.href}>
-                        <item.icon className="h-4 w-4" />
-                        <span>{item.title}</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                );
-              })}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {navSections.map((section) => (
+          <SidebarGroup key={section.label}>
+            <SidebarGroupLabel>{section.label}</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {section.items.map((item) => {
+                  const isActive = pathname === item.href;
+                  return (
+                    <SidebarMenuItem key={item.href}>
+                      <SidebarMenuButton asChild isActive={isActive}>
+                        <Link href={item.href}>
+                          <item.icon className="h-4 w-4" />
+                          <span>{item.title}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  );
+                })}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        ))}
       </SidebarContent>
       <SidebarFooter>
         <div className="px-4 py-2 text-xs text-muted-foreground">
