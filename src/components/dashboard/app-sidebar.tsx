@@ -23,6 +23,8 @@ import {
   ShoppingCart,
   ShoppingBag,
   AlertTriangle,
+  Activity,
+  RefreshCw,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -35,6 +37,11 @@ const navSections = [
         title: "Dashboard",
         href: "/",
         icon: LayoutDashboard,
+      },
+      {
+        title: "Executive Summary",
+        href: "/executive",
+        icon: Activity,
       },
     ],
   },
@@ -112,6 +119,11 @@ const navSections = [
     label: "System",
     items: [
       {
+        title: "SellerCloud Sync",
+        href: "/sync",
+        icon: RefreshCw,
+      },
+      {
         title: "Audit Log",
         href: "/audit",
         icon: FileText,
@@ -137,7 +149,10 @@ export function AppSidebar() {
             <SidebarGroupContent>
               <SidebarMenu>
                 {section.items.map((item) => {
-                  const isActive = pathname === item.href;
+                  // For "/" use exact match, for others use startsWith to match nested routes
+                  const isActive = item.href === "/"
+                    ? pathname === item.href
+                    : pathname.startsWith(item.href);
                   return (
                     <SidebarMenuItem key={item.href}>
                       <SidebarMenuButton asChild isActive={isActive}>

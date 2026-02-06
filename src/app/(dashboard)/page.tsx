@@ -1,7 +1,7 @@
 "use client";
 
 import { StatCard } from "@/components/dashboard/stat-card";
-import { Package, Box, Store, ShoppingCart, ShoppingBag, TrendingUp } from "lucide-react";
+import { Package, Box, Store, ShoppingCart, ShoppingBag, TrendingUp, AlertTriangle } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 
 export default function DashboardPage() {
@@ -11,6 +11,8 @@ export default function DashboardPage() {
   const { data: purchaseOrdersCount, isLoading: poLoading } = trpc.orders.purchaseOrders.count.useQuery();
   const { data: retailOrdersCount, isLoading: roLoading } = trpc.orders.retailOrders.count.useQuery();
   const { data: forecastsCount, isLoading: forecastsLoading } = trpc.import.forecasts.count.useQuery();
+  const { data: alertsSummary, isLoading: alertsLoading } = trpc.alerts.summary.useQuery({});
+  const { data: monthlySummary, isLoading: monthlyLoading } = trpc.demand.monthlySummary.useQuery({});
 
   return (
     <div className="space-y-6">
@@ -58,6 +60,35 @@ export default function DashboardPage() {
           icon={TrendingUp}
           loading={forecastsLoading}
         />
+      </div>
+
+      {/* Demand Health Section */}
+      <div>
+        <h2 className="text-lg font-semibold mb-3">Demand Health</h2>
+        <div className="grid gap-4 md:grid-cols-3">
+          <StatCard
+            title="Shortage SKUs"
+            value={alertsSummary?.totalShortageSkus ?? 0}
+            icon={AlertTriangle}
+            loading={alertsLoading}
+          />
+          <StatCard
+            title="Excess SKUs"
+            value={alertsSummary?.totalExcessSkus ?? 0}
+            icon={TrendingUp}
+            loading={alertsLoading}
+          />
+          <StatCard
+            title="Total Forecasted (Current Month)"
+            value={
+              monthlySummary && monthlySummary.length > 0
+                ? monthlySummary[0].forecastedUnits.toLocaleString()
+                : 0
+            }
+            icon={TrendingUp}
+            loading={monthlyLoading}
+          />
+        </div>
       </div>
     </div>
   );
