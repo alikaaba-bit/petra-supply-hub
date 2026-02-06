@@ -11,18 +11,18 @@ See: .planning/PROJECT.md (updated 2026-02-06)
 ## Current Position
 
 Phase: 3 of 4 (SellerCloud Integration & Demand Visibility) — IN PROGRESS
-Plan: 2 of 4 (03-01, 03-02 complete)
+Plan: 3 of 4 (03-01, 03-02, 03-03 complete)
 Status: In progress
-Last activity: 2026-02-06 — Completed 03-02-PLAN.md
+Last activity: 2026-02-06 — Completed 03-03-PLAN.md
 
-Progress: [███████░░░] 67%
+Progress: [████████░░] 75%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 8
-- Average duration: 8.0 min
-- Total execution time: ~1.1 hours
+- Total plans completed: 9
+- Average duration: 7.3 min
+- Total execution time: ~1.2 hours
 
 **By Phase:**
 
@@ -30,11 +30,11 @@ Progress: [███████░░░] 67%
 |-------|-------|-------|----------|
 | 01-foundation-master-data | 3/3 | 36min | 12min |
 | 02-data-integration-manual-entry | 3/3 | 21min | 7min |
-| 03-sellercloud-integration-demand-visibility | 2/4 | 6min | 3min |
+| 03-sellercloud-integration-demand-visibility | 3/4 | 10min | 3.3min |
 
 **Recent Trend:**
-- Last 5 plans: 02-02 (1min), 02-03 (10min), 03-01 (3min), 03-02 (3min)
-- Trend: Fast execution for backend API layer work
+- Last 5 plans: 02-03 (10min), 03-01 (3min), 03-02 (3min), 03-03 (4min)
+- Trend: Consistent fast execution in Phase 3
 
 *Updated after each plan completion*
 
@@ -79,6 +79,11 @@ Recent decisions affecting current work:
 - **03-02**: PostgreSQL-level aggregation: Use SQL aggregation (Drizzle sql template) instead of client-side reduce for performance
 - **03-02**: String-to-number conversion: PostgreSQL SUM returns strings; explicit Number() conversion required
 - **03-02**: Standardized inventory formulas: Available = OnHand + InTransit - Allocated; Shortage = Forecasted - Ordered - Available
+- **03-03**: Reusable BrandSelector component: Shared across all demand views for consistent filtering UX
+- **03-03**: Color-coded visual indicators: Red badges for shortages, amber for excess, green for healthy state
+- **03-03**: SKU drill-down pagination: 50 records per page for optimal UI performance
+- **03-03**: Month selector pattern: Current + past 3 months for historical comparison using date-fns
+- **03-03**: Summary cards aggregate by brand: Client-side reduce of crossBrandSummary data by brandId
 
 ### Pending Todos
 
@@ -97,12 +102,13 @@ None yet.
 - Data quality in existing Excel files not yet audited (research flags 90% of spreadsheets contain errors)
 - 6 human verification items flagged by verifier for end-to-end testing with real files
 
-**Phase 3 notes (03-01, 03-02 complete):**
+**Phase 3 notes (03-01, 03-02, 03-03 complete):**
 - SellerCloud API integration layer complete, awaiting credentials for testing
 - Demand aggregation and alert calculation backend complete (9 tRPC routers total)
+- Demand visibility UI complete: 3 pages (summary, by-retailer, by-sku) with brand filtering
 - Must run `npm run db:push` to create sellercloud_sync_log and sellercloud_id_map tables
 - Vendor-to-brand mapping table needed for multi-brand PO sync
-- UI layers for SellerCloud admin and demand dashboards ready to build (Plans 03-04)
+- Phase 3 Plan 04 (if exists) can proceed
 
 **Change management:**
 - Non-technical team requires intuitive UI design from day one
