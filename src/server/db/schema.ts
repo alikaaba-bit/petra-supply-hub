@@ -478,6 +478,59 @@ export const auditLog = pgTable(
 );
 
 // ============================================================================
+// SELLERCLOUD SYNC TRACKING
+// ============================================================================
+
+export const sellercloudSyncLog = pgTable(
+  "sellercloud_sync_log",
+  {
+    id: serial("id").primaryKey(),
+    entityType: varchar("entity_type", { length: 50 }).notNull(),
+    syncStartedAt: timestamp("sync_started_at", { mode: "date" })
+      .notNull()
+      .defaultNow(),
+    syncCompletedAt: timestamp("sync_completed_at", { mode: "date" }),
+    status: varchar("status", { length: 20 }).notNull().default("running"),
+    recordsProcessed: integer("records_processed").default(0),
+    recordsCreated: integer("records_created").default(0),
+    recordsUpdated: integer("records_updated").default(0),
+    errorMessage: text("error_message"),
+    triggeredBy: text("triggered_by").references(() => users.id),
+  },
+  (table) => ({
+    entityTypeStartedIdx: index("sc_sync_log_entity_started_idx").on(
+      table.entityType,
+      table.syncStartedAt
+    ),
+  })
+);
+
+export const sellercloudIdMap = pgTable(
+  "sellercloud_id_map",
+  {
+    id: serial("id").primaryKey(),
+    entityType: varchar("entity_type", { length: 50 }).notNull(),
+    sellercloudId: varchar("sellercloud_id", { length: 100 }).notNull(),
+    localTableName: varchar("local_table_name", { length: 100 }).notNull(),
+    localId: integer("local_id").notNull(),
+    rawData: text("raw_data"),
+    lastSyncedAt: timestamp("last_synced_at", { mode: "date" })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => ({
+    entitySellercloudIdUnique: unique("sc_id_map_entity_sc_id_unique").on(
+      table.entityType,
+      table.sellercloudId
+    ),
+    localTableIdIdx: index("sc_id_map_local_table_id_idx").on(
+      table.localTableName,
+      table.localId
+    ),
+  })
+);
+
+// ============================================================================
 // RELATIONS
 // ============================================================================
 
@@ -656,3 +709,13 @@ export const paymentsRelations = relations(payments, ({ one }) => ({
     references: [users.id],
   }),
 }));
+
+export const sellercloudSyncLogRelations = relations(
+  sellercloudSyncLog,
+  ({ one }) => ({
+    triggeredByUser: one(users, {
+      fields: [sellercloudSyncLog.triggeredBy],
+      references: [users.id],
+    }),
+  })
+);
