@@ -1,9 +1,14 @@
 import { z } from "zod";
 import { router, publicProcedure, protectedProcedure } from "../trpc";
 import { retailers } from "@/server/db/schema";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, count } from "drizzle-orm";
 
 export const retailersRouter = router({
+  count: publicProcedure.query(async ({ ctx }) => {
+    const result = await ctx.db.select({ count: count() }).from(retailers);
+    return result[0]?.count ?? 0;
+  }),
+
   list: publicProcedure.query(async ({ ctx }) => {
     return await ctx.db.query.retailers.findMany({
       orderBy: [desc(retailers.createdAt)],
