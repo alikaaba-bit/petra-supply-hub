@@ -11,18 +11,18 @@ See: .planning/PROJECT.md (updated 2026-02-06)
 ## Current Position
 
 Phase: 3 of 4 (SellerCloud Integration & Demand Visibility) — IN PROGRESS
-Plan: 1 of 4 (03-01 complete)
+Plan: 2 of 4 (03-01, 03-02 complete)
 Status: In progress
-Last activity: 2026-02-06 — Completed 03-01-PLAN.md
+Last activity: 2026-02-06 — Completed 03-02-PLAN.md
 
-Progress: [██████▓░░░] 64%
+Progress: [███████░░░] 67%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 7
-- Average duration: 8.7 min
-- Total execution time: ~1.0 hours
+- Total plans completed: 8
+- Average duration: 8.0 min
+- Total execution time: ~1.1 hours
 
 **By Phase:**
 
@@ -30,11 +30,11 @@ Progress: [██████▓░░░] 64%
 |-------|-------|-------|----------|
 | 01-foundation-master-data | 3/3 | 36min | 12min |
 | 02-data-integration-manual-entry | 3/3 | 21min | 7min |
-| 03-sellercloud-integration-demand-visibility | 1/4 | 3min | 3min |
+| 03-sellercloud-integration-demand-visibility | 2/4 | 6min | 3min |
 
 **Recent Trend:**
-- Last 5 plans: 02-01 (10min), 02-02 (1min), 02-03 (10min), 03-01 (3min)
-- Trend: Fast execution for integration layer work
+- Last 5 plans: 02-02 (1min), 02-03 (10min), 03-01 (3min), 03-02 (3min)
+- Trend: Fast execution for backend API layer work
 
 *Updated after each plan completion*
 
@@ -76,6 +76,9 @@ Recent decisions affecting current work:
 - **03-01**: POST inventory endpoint: Use POST /api/Inventory/Details to avoid special character issues
 - **03-01**: Manual sync only: tRPC procedures for manual triggers, no cron scheduler yet
 - **03-01**: Graceful env handling: Return descriptive error objects when credentials not configured
+- **03-02**: PostgreSQL-level aggregation: Use SQL aggregation (Drizzle sql template) instead of client-side reduce for performance
+- **03-02**: String-to-number conversion: PostgreSQL SUM returns strings; explicit Number() conversion required
+- **03-02**: Standardized inventory formulas: Available = OnHand + InTransit - Allocated; Shortage = Forecasted - Ordered - Available
 
 ### Pending Todos
 
@@ -94,11 +97,12 @@ None yet.
 - Data quality in existing Excel files not yet audited (research flags 90% of spreadsheets contain errors)
 - 6 human verification items flagged by verifier for end-to-end testing with real files
 
-**Phase 3 notes (03-01 complete):**
+**Phase 3 notes (03-01, 03-02 complete):**
 - SellerCloud API integration layer complete, awaiting credentials for testing
+- Demand aggregation and alert calculation backend complete (9 tRPC routers total)
 - Must run `npm run db:push` to create sellercloud_sync_log and sellercloud_id_map tables
 - Vendor-to-brand mapping table needed for multi-brand PO sync
-- Line items, shipment tracking, and payment status sync deferred to Plan 02/03
+- UI layers for SellerCloud admin and demand dashboards ready to build (Plans 03-04)
 
 **Change management:**
 - Non-technical team requires intuitive UI design from day one
@@ -108,9 +112,9 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-06 (Phase 3 execution)
-Stopped at: Completed 03-01-PLAN.md (SellerCloud API integration layer)
+Stopped at: Completed 03-02-PLAN.md (Demand aggregation & alert calculation backend)
 Resume file: None
-Resume with: `/gsd:execute-phase 3 --plan 02` to continue Phase 3
+Resume with: `/gsd:execute-phase 3 --plan 03` to continue Phase 3
 Plans completed:
   - 01-01-PLAN.md: Project scaffolding, database schema, connection pooling ✓
   - 01-02-PLAN.md: Auth.js v5, tRPC v11, audit triggers ✓
@@ -119,7 +123,8 @@ Plans completed:
   - 02-02-PLAN.md: Import wizard UI, drag-drop upload, validation results, preview table ✓
   - 02-03-PLAN.md: Order entry forms, sidebar navigation, dashboard stats, forecasts page ✓
   - 03-01-PLAN.md: SellerCloud API client, sync tracking schema, manual sync procedures ✓
+  - 03-02-PLAN.md: Demand/alerts routers, PostgreSQL aggregation, all Phase 3 routers registered ✓
 Phase 1 status: Complete (verified)
 Phase 2 status: Complete (verified - 5/5 success criteria)
-Phase 3 status: In progress (1/4 plans complete)
-Next: Phase 3 Plan 02 - Router registration and admin UI
+Phase 3 status: In progress (2/4 plans complete)
+Next: Phase 3 Plan 03 - SellerCloud admin UI
