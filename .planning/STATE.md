@@ -11,18 +11,18 @@ See: .planning/PROJECT.md (updated 2026-02-06)
 ## Current Position
 
 Phase: 4 of 4 (Order Tracking & Role-Based Views) — IN PROGRESS
-Plan: 1 of 3 (Wave 1 complete)
+Plan: 2 of 3 (Wave 2 in progress)
 Status: In progress
-Last activity: 2026-02-06 — Completed 04-01-PLAN.md
+Last activity: 2026-02-06 — Completed 04-02-PLAN.md
 
-Progress: [█████████░] 92%
+Progress: [█████████░] 94%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 11
-- Average duration: 6.5 min
-- Total execution time: ~1.3 hours
+- Total plans completed: 12
+- Average duration: 6.3 min
+- Total execution time: ~1.4 hours
 
 **By Phase:**
 
@@ -31,11 +31,11 @@ Progress: [█████████░] 92%
 | 01-foundation-master-data | 3/3 | 36min | 12min |
 | 02-data-integration-manual-entry | 3/3 | 21min | 7min |
 | 03-sellercloud-integration-demand-visibility | 4/4 | 14min | 3.5min |
-| 04-order-tracking-role-based-views | 1/3 | 3min | 3min |
+| 04-order-tracking-role-based-views | 2/3 | 7min | 3.5min |
 
 **Recent Trend:**
-- Last 5 plans: 03-02 (3min), 03-03 (4min), 03-04 (4min), 04-01 (3min)
-- Trend: Consistent fast execution continuing into Phase 4
+- Last 5 plans: 03-03 (4min), 03-04 (4min), 04-01 (3min), 04-02 (4min)
+- Trend: Consistent fast execution, Phase 4 maintaining 3-4 min per plan
 
 *Updated after each plan completion*
 
@@ -95,6 +95,10 @@ Recent decisions affecting current work:
 - **04-01**: LeadTimeBadge urgency thresholds: Overdue (past) = red, urgent (<=7 days) = amber, normal (>7 days) = gray
 - **04-01**: POTimeline fixed 6-step lifecycle: ordered → confirmed → in_production → shipped → in_transit → arrived
 - **04-01**: Status summary uses PostgreSQL aggregation (COUNT + GROUP BY) for performance
+- **04-02**: Deposit status as icon: Green check / red X for compact at-a-glance visibility
+- **04-02**: Lead time badge on supplier PO list: Inline calculateOrderByDate for immediate order-by urgency display
+- **04-02**: Ship-by urgency as text color: Amber text (not badge) for dates <=7 days away
+- **04-02**: POTimeline as primary lifecycle view: Visual storytelling on supplier detail page
 
 ### Pending Todos
 
@@ -134,10 +138,10 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-06 (Phase 4 execution started)
-Stopped at: Completed 04-01-PLAN.md (Wave 1)
+Last session: 2026-02-06 (Phase 4 execution continuing)
+Stopped at: Completed 04-02-PLAN.md (Wave 2 in progress)
 Resume file: None
-Resume with: Continue Phase 4 Wave 2 (04-02, 04-03)
+Resume with: Execute 04-03 to complete Phase 4
 Plans completed:
   - 01-01-PLAN.md: Project scaffolding, database schema, connection pooling ✓
   - 01-02-PLAN.md: Auth.js v5, tRPC v11, audit triggers ✓
@@ -150,11 +154,11 @@ Plans completed:
   - 03-03-PLAN.md: Demand dashboard pages (summary, by-retailer, by-sku) ✓
   - 03-04-PLAN.md: Executive summary, sync management, enhanced navigation ✓
   - 04-01-PLAN.md: Tracking tRPC router, lead time utils, 4 shared UI components ✓
+  - 04-02-PLAN.md: Supplier PO tracking + retail order tracking pages ✓
 Plans ready (not yet executed):
-  - 04-02-PLAN.md: Supplier PO tracking + retail order tracking pages (Wave 2)
   - 04-03-PLAN.md: 4 role-based dashboards + sidebar navigation update (Wave 2)
 Phase 1 status: Complete (verified)
 Phase 2 status: Complete (verified - 5/5 success criteria)
 Phase 3 status: Complete (verified - 9/9 success criteria)
-Phase 4 status: In progress (1/3 complete - Wave 1 done)
-Next: Execute 04-02 and 04-03 (Wave 2)
+Phase 4 status: In progress (2/3 complete - Wave 2 in progress)
+Next: Execute 04-03 to complete Phase 4
