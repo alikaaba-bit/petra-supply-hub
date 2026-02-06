@@ -22,6 +22,7 @@ import {
   TrendingUp,
   ShoppingCart,
   ShoppingBag,
+  AlertTriangle,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -34,6 +35,26 @@ const navSections = [
         title: "Dashboard",
         href: "/",
         icon: LayoutDashboard,
+      },
+    ],
+  },
+  {
+    label: "Demand",
+    items: [
+      {
+        title: "Summary",
+        href: "/demand",
+        icon: AlertTriangle,
+      },
+      {
+        title: "By Retailer",
+        href: "/demand/by-retailer",
+        icon: Store,
+      },
+      {
+        title: "By SKU",
+        href: "/demand/by-sku",
+        icon: Box,
       },
     ],
   },
