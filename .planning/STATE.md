@@ -6,7 +6,7 @@ See: .planning/PROJECT.md (updated 2026-02-06)
 
 **Core value:** Every team member can open one dashboard and instantly see: what's the demand, what's been ordered, what's in stock, what's arriving, and what cash is needed — across all brands and retailers.
 
-**Current focus:** Phase 3 - SellerCloud Integration & Demand Visibility (Phases 1-2 complete and verified)
+**Current focus:** PAUSED — Waiting for SellerCloud API credentials before Phase 3
 
 ## Current Position
 
@@ -101,8 +101,9 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-06 (Phase 2 execution and verification)
-Stopped at: Phase 2 complete and verified
+Stopped at: Phase 2 complete and verified — PAUSED waiting for SellerCloud API credentials
 Resume file: None
+Resume with: `/gsd:resume-work` or `/gsd:plan-phase 3` once SellerCloud API credentials are available
 Plans completed:
   - 01-01-PLAN.md: Project scaffolding, database schema, connection pooling ✓
   - 01-02-PLAN.md: Auth.js v5, tRPC v11, audit triggers ✓
