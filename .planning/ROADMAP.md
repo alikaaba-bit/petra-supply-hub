@@ -103,12 +103,12 @@ Plans:
   4. PO lifecycle timeline visualizes the pipeline: ordered → in production → shipped → in transit → arrived at warehouse → allocated
   5. Role-based views show appropriate information for each user type (CEO: overview and alerts; Sales: retailer status and forecasts; Purchasing: supply gaps and PO tracking; Warehouse: inbound shipments and stock levels)
 
-**Plans**: TBD
+**Plans**: 3 plans in 2 waves
 
 Plans:
-- [ ] 04-01: TBD during plan-phase
-- [ ] 04-02: TBD during plan-phase
-- [ ] 04-03: TBD during plan-phase
+- [ ] 04-01-PLAN.md — Tracking tRPC router, shared UI components (status badge, lead time badge, PO timeline, order status card), lead time utilities
+- [ ] 04-02-PLAN.md — Supplier PO tracking pages (list + detail with timeline) and retail order tracking pages (list + detail)
+- [ ] 04-03-PLAN.md — Role-based dashboards (CEO, Sales, Purchasing, Warehouse) and sidebar navigation update
 
 ## Progress
 
@@ -120,4 +120,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 1. Foundation & Master Data | 3/3 | ✓ Complete | 2026-02-06 |
 | 2. Data Integration & Manual Entry | 3/3 | ✓ Complete | 2026-02-06 |
 | 3. SellerCloud Integration & Demand Visibility | 4/4 | ✓ Complete | 2026-02-06 |
-| 4. Order Tracking & Role-Based Views | 0/TBD | Not started | - |
+| 4. Order Tracking & Role-Based Views | 0/3 | Not started | - |
