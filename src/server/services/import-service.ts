@@ -1,5 +1,5 @@
 import { db } from "@/server/db";
-import { forecasts } from "@/server/db/schema";
+import { forecasts, retailSales } from "@/server/db/schema";
 import { sql } from "drizzle-orm";
 import type { ValidatedForecastRow } from "./validators/forecast-validator";
 import type { ValidatedSalesRow } from "./validators/sales-validator";
@@ -77,14 +77,9 @@ export async function importRetailSales(
     return { imported: 0 };
   }
 
-  // Note: retailSales table will be added in Task 4
-  // For now, this is a placeholder that will be functional after schema update
-
   const batchSize = 100;
   let imported = 0;
 
-  // TODO: Uncomment when retailSales table is added to schema
-  /*
   for (let i = 0; i < rows.length; i += batchSize) {
     const batch = rows.slice(i, i + batchSize);
 
@@ -93,7 +88,7 @@ export async function importRetailSales(
       retailerId: row.retailerId,
       month: row.month,
       unitsSold: row.unitsSold,
-      revenue: row.revenue,
+      revenue: row.revenue ? row.revenue.toString() : null,
       source: "excel_import" as const,
       createdBy: userId,
       updatedAt: new Date(),
@@ -114,7 +109,6 @@ export async function importRetailSales(
 
     imported += batch.length;
   }
-  */
 
   return { imported };
 }

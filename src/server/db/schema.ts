@@ -225,6 +225,45 @@ export const forecasts = pgTable(
 );
 
 // ============================================================================
+// RETAIL SALES
+// ============================================================================
+
+export const retailSales = pgTable(
+  "retail_sales",
+  {
+    id: serial("id").primaryKey(),
+    skuId: integer("sku_id")
+      .notNull()
+      .references(() => skus.id),
+    retailerId: integer("retailer_id")
+      .notNull()
+      .references(() => retailers.id),
+    month: date("month", { mode: "date" }).notNull(),
+    unitsSold: integer("units_sold").notNull().default(0),
+    revenue: numeric("revenue", { precision: 12, scale: 2 }),
+    source: varchar("source", { length: 50 }).default("manual"),
+    notes: text("notes"),
+    createdBy: text("created_by").references(() => users.id),
+    createdAt: timestamp("created_at", { mode: "date" })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp("updated_at", { mode: "date" })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => ({
+    skuRetailerMonthUnique: unique("retail_sales_sku_retailer_month_unique").on(
+      table.skuId,
+      table.retailerId,
+      table.month
+    ),
+    skuIdIdx: index("retail_sales_sku_id_idx").on(table.skuId),
+    retailerIdIdx: index("retail_sales_retailer_id_idx").on(table.retailerId),
+    monthIdx: index("retail_sales_month_idx").on(table.month),
+  })
+);
+
+// ============================================================================
 // PURCHASE ORDERS
 // ============================================================================
 
@@ -474,6 +513,7 @@ export const skusRelations = relations(skus, ({ one, many }) => ({
     references: [brands.id],
   }),
   forecasts: many(forecasts),
+  retailSales: many(retailSales),
   poLineItems: many(poLineItems),
   inventory: one(inventory),
   retailOrderLineItems: many(retailOrderLineItems),
@@ -482,6 +522,7 @@ export const skusRelations = relations(skus, ({ one, many }) => ({
 export const retailersRelations = relations(retailers, ({ many }) => ({
   brandRetailers: many(brandRetailers),
   forecasts: many(forecasts),
+  retailSales: many(retailSales),
   retailOrders: many(retailOrders),
 }));
 
@@ -510,6 +551,21 @@ export const forecastsRelations = relations(forecasts, ({ one }) => ({
   }),
   createdByUser: one(users, {
     fields: [forecasts.createdBy],
+    references: [users.id],
+  }),
+}));
+
+export const retailSalesRelations = relations(retailSales, ({ one }) => ({
+  sku: one(skus, {
+    fields: [retailSales.skuId],
+    references: [skus.id],
+  }),
+  retailer: one(retailers, {
+    fields: [retailSales.retailerId],
+    references: [retailers.id],
+  }),
+  createdByUser: one(users, {
+    fields: [retailSales.createdBy],
     references: [users.id],
   }),
 }));
