@@ -11,28 +11,28 @@ See: .planning/PROJECT.md (updated 2026-02-06)
 ## Current Position
 
 Phase: 1 of 4 (Foundation & Master Data)
-Plan: 1 of 3 (in progress)
+Plan: 2 of 3 (in progress)
 Status: In progress
-Last activity: 2026-02-06 — Completed 01-01-PLAN.md (Project Scaffolding)
+Last activity: 2026-02-06 — Completed 01-02-PLAN.md (Auth, tRPC, Audit Triggers)
 
-Progress: [█░░░░░░░░░] 10%
+Progress: [██░░░░░░░░] 20%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1
-- Average duration: 20 min
-- Total execution time: 0.33 hours
+- Total plans completed: 2
+- Average duration: 14 min
+- Total execution time: 0.47 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-foundation-master-data | 1/3 | 20min | 20min |
+| 01-foundation-master-data | 2/3 | 28min | 14min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (20min)
-- Trend: First plan completed
+- Last 5 plans: 01-01 (20min), 01-02 (8min)
+- Trend: Acceleration on API setup
 
 *Updated after each plan completion*
 
@@ -49,6 +49,10 @@ Recent decisions affecting current work:
 - **01-01**: Drizzle ORM over Prisma for lighter serverless footprint
 - **01-01**: Connection pool max:1 for serverless environments
 - **01-01**: Include Auth.js adapter tables in initial schema (16 tables total)
+- **01-02**: Removed DrizzleAdapter from Auth.js (type conflict with JWT strategy)
+- **01-02**: JWT strategy required for Credentials provider (no database sessions)
+- **01-02**: protectedProcedure sets app.current_user_id PostgreSQL session variable
+- **01-02**: Audit triggers capture INSERT/UPDATE/DELETE with before/after data
 
 ### Pending Todos
 
@@ -58,7 +62,7 @@ None yet.
 
 **Phase 1 considerations:**
 - PostgreSQL database must be running and accessible (DATABASE_URL configured)
-- Run `npm run db:push` to apply schema before Phase 01-02
+- Run `npm run db:push` to apply schema, then `npm run db:seed` to create CEO user and install audit triggers
 - SellerCloud API credentials pending from VPS setup
 - Google Sheets master product data needs export for initial master data load
 - Data quality in existing Excel files not yet audited (research flags 90% of spreadsheets contain errors)
@@ -71,10 +75,10 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-06 (Phase 1 execution)
-Stopped at: Completed 01-01-PLAN.md
+Stopped at: Completed 01-02-PLAN.md
 Resume file: None
 Plans completed:
   - 01-01-PLAN.md: Project scaffolding, database schema, connection pooling ✓
+  - 01-02-PLAN.md: Auth.js v5, tRPC v11, audit triggers ✓
 Plans ready:
-  - 01-02-PLAN.md: Auth.js, tRPC API layer, audit triggers
   - 01-03-PLAN.md: Dashboard UI, master data CRUD pages, seed data
