@@ -81,13 +81,13 @@ Plans:
   8. Executive summary page provides one-screen health check with top alerts, key numbers, and action items
   9. Navigation organizes views by brand and by function (demand, orders, cash flow)
 
-**Plans**: TBD
+**Plans**: 4 plans in 3 waves
 
 Plans:
-- [ ] 03-01: TBD during plan-phase
-- [ ] 03-02: TBD during plan-phase
-- [ ] 03-03: TBD during plan-phase
-- [ ] 03-04: TBD during plan-phase
+- [ ] 03-01-PLAN.md — SellerCloud API client with retry/backoff, sync tracking schema, sync tRPC router
+- [ ] 03-02-PLAN.md — Demand aggregation tRPC router (cross-brand, retailer, SKU) and alerts calculation router
+- [ ] 03-03-PLAN.md — Demand dashboard pages (cross-brand summary, retailer breakdown, SKU drill-down) with brand selector
+- [ ] 03-04-PLAN.md — Executive summary page, sync management page, sidebar navigation update
 
 ### Phase 4: Order Tracking & Role-Based Views
 **Goal**: Track complete PO lifecycle from China suppliers and retail customers, with role-specific dashboard views for each team member type
@@ -119,5 +119,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Foundation & Master Data | 3/3 | ✓ Complete | 2026-02-06 |
 | 2. Data Integration & Manual Entry | 3/3 | ✓ Complete | 2026-02-06 |
-| 3. SellerCloud Integration & Demand Visibility | 0/TBD | Not started | - |
+| 3. SellerCloud Integration & Demand Visibility | 0/4 | Not started | - |
 | 4. Order Tracking & Role-Based Views | 0/TBD | Not started | - |
