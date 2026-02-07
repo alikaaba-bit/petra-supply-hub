@@ -17,7 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Foundation & Master Data** - Database schema, authentication, and core data structures
 - [x] **Phase 2: Data Integration & Manual Entry** - Excel import, manual entry fallback, and data validation
 - [x] **Phase 3: SellerCloud Integration & Demand Visibility** - API integration, demand vs supply calculations, and executive dashboard
-- [ ] **Phase 4: Order Tracking & Role-Based Views** - PO lifecycle tracking, supplier and retail order management, role-specific dashboards
+- [x] **Phase 4: Order Tracking & Role-Based Views** - PO lifecycle tracking, supplier and retail order management, role-specific dashboards
 
 ## Phase Details
 
@@ -106,9 +106,9 @@ Plans:
 **Plans**: 3 plans in 2 waves
 
 Plans:
-- [ ] 04-01-PLAN.md — Tracking tRPC router, shared UI components (status badge, lead time badge, PO timeline, order status card), lead time utilities
-- [ ] 04-02-PLAN.md — Supplier PO tracking pages (list + detail with timeline) and retail order tracking pages (list + detail)
-- [ ] 04-03-PLAN.md — Role-based dashboards (CEO, Sales, Purchasing, Warehouse) and sidebar navigation update
+- [x] 04-01-PLAN.md — Tracking tRPC router, shared UI components (status badge, lead time badge, PO timeline, order status card), lead time utilities
+- [x] 04-02-PLAN.md — Supplier PO tracking pages (list + detail with timeline) and retail order tracking pages (list + detail)
+- [x] 04-03-PLAN.md — Role-based dashboards (CEO, Sales, Purchasing, Warehouse) and sidebar navigation update
 
 ## Progress
 
@@ -120,4 +120,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 1. Foundation & Master Data | 3/3 | ✓ Complete | 2026-02-06 |
 | 2. Data Integration & Manual Entry | 3/3 | ✓ Complete | 2026-02-06 |
 | 3. SellerCloud Integration & Demand Visibility | 4/4 | ✓ Complete | 2026-02-06 |
-| 4. Order Tracking & Role-Based Views | 0/3 | Not started | - |
+| 4. Order Tracking & Role-Based Views | 3/3 | ✓ Complete | 2026-02-06 |

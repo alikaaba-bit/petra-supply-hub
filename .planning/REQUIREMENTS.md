@@ -113,11 +113,11 @@
 | UX-01 | Phase 3 | Complete |
 | UX-03 | Phase 3 | Complete |
 | UX-05 | Phase 3 | Complete |
-| ORD-01 | Phase 4 | Pending |
-| ORD-02 | Phase 4 | Pending |
-| ORD-03 | Phase 4 | Pending |
-| ORD-04 | Phase 4 | Pending |
-| UX-02 | Phase 4 | Pending |
+| ORD-01 | Phase 4 | Complete |
+| ORD-02 | Phase 4 | Complete |
+| ORD-03 | Phase 4 | Complete |
+| ORD-04 | Phase 4 | Complete |
+| UX-02 | Phase 4 | Complete |
 
 **Coverage:**
 - v1 requirements: 23 total
