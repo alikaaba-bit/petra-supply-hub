@@ -1,123 +1,26 @@
 # Roadmap: Petra Supply Hub
 
-## Overview
+## Milestones
 
-This roadmap transforms Petra Brands from scattered Excel spreadsheets to a unified supply chain dashboard across 5 brands, 160 SKUs, and 12 retailers. The journey moves from establishing technical foundation and master data structures, through enabling data integration and demand visibility, to delivering complete order tracking with role-based views. Each phase builds on the previous, delivering incremental value while maintaining Excel compatibility during transition.
-
-**Note:** Cash flow visibility features (CFW-01 through CFW-04) have been deferred to next session/v2. Current roadmap focuses on 4 phases covering demand visibility and order tracking.
+- **v1.0 MVP** — Phases 1-4 (shipped 2026-02-07) — [archive](milestones/v1.0-ROADMAP.md)
 
 ## Phases
 
-**Phase Numbering:**
-- Integer phases (1, 2, 3): Planned milestone work
-- Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
+<details>
+<summary>v1.0 MVP (Phases 1-4) — SHIPPED 2026-02-07</summary>
 
-Decimal phases appear between their surrounding integers in numeric order.
+- [x] Phase 1: Foundation & Master Data (3/3 plans) — completed 2026-02-06
+- [x] Phase 2: Data Integration & Manual Entry (3/3 plans) — completed 2026-02-06
+- [x] Phase 3: SellerCloud Integration & Demand Visibility (4/4 plans) — completed 2026-02-06
+- [x] Phase 4: Order Tracking & Role-Based Views (3/3 plans) — completed 2026-02-06
 
-- [x] **Phase 1: Foundation & Master Data** - Database schema, authentication, and core data structures
-- [x] **Phase 2: Data Integration & Manual Entry** - Excel import, manual entry fallback, and data validation
-- [x] **Phase 3: SellerCloud Integration & Demand Visibility** - API integration, demand vs supply calculations, and executive dashboard
-- [x] **Phase 4: Order Tracking & Role-Based Views** - PO lifecycle tracking, supplier and retail order management, role-specific dashboards
-
-## Phase Details
-
-### Phase 1: Foundation & Master Data
-**Goal**: Establish technical foundation with database schema, authentication system, and canonical master data for all brands, SKUs, and retailers
-
-**Depends on**: Nothing (first phase)
-
-**Requirements**: FND-01, FND-02, FND-03, FND-04, UX-04
-
-**Success Criteria** (what must be TRUE):
-  1. Database schema exists supporting 5 brands, 160 SKUs, 12 retailers, with tables for forecasts, POs, inventory, and payments
-  2. Users can log in with assigned roles (CEO, sales, purchasing, warehouse) and access the dashboard
-  3. Master data tables contain canonical reference data for all 5 brands and ~16 retailers with real names/codes, plus ~158 representative placeholder SKUs (real SKU data imported via Phase 2 Excel upload)
-  4. Audit log captures who changed what data and when, visible to authorized users
-  5. Dashboard UI displays clean, visual design that non-technical team members can navigate without training
-
-**Plans**: 3 plans in 3 waves (sequential)
-
-Plans:
-- [x] 01-01-PLAN.md — Project scaffolding, database schema (16 tables), and connection pooling
-- [x] 01-02-PLAN.md — Auth.js authentication, tRPC API layer, master data routers, and audit triggers
-- [x] 01-03-PLAN.md — Dashboard UI with sidebar, master data CRUD pages, seed data, and audit viewer
-
-### Phase 2: Data Integration & Manual Entry
-**Goal**: Enable team to input forecast and sales data through Excel uploads and manual entry, with validation to prevent bad data
-
-**Depends on**: Phase 1
-
-**Requirements**: DAT-01, DAT-03, DAT-04, DAT-05
-
-**Success Criteria** (what must be TRUE):
-  1. Team can upload Excel files in RTL FORECAST_MASTER format (Fomin, Luna, EveryMood, Roofus) and HOP product-centric format, seeing parsed data before committing
-  2. Team can manually create and update orders when Excel data is incomplete or SellerCloud data is unavailable
-  3. Team can upload retail sales Excel files for SKU performance tracking across retailers
-  4. Data validation flags errors during import (missing SKUs, invalid dates, duplicate entries), shows preview, and rejects malformed data
-  5. Imported data appears immediately in dashboard views after validation passes
-
-**Plans**: 3 plans in 2 waves
-
-Plans:
-- [x] 02-01-PLAN.md — Dependencies, ExcelJS parsers (RTL/HOP/retail sales), Zod validators, import service, Server Actions, tRPC routers, retailSales table
-- [x] 02-02-PLAN.md — Import wizard UI (dropzone, format detection, validation results, preview table, commit)
-- [x] 02-03-PLAN.md — Purchase order & retail order CRUD pages, forecasts list, sidebar reorganization, dashboard stats
-
-### Phase 3: SellerCloud Integration & Demand Visibility
-**Goal**: Automatically pull POs and inventory from SellerCloud, display demand vs supply gaps across all brands, and provide executive summary dashboard
-
-**Depends on**: Phase 2
-
-**Requirements**: DAT-02, DEM-01, DEM-02, DEM-03, DEM-04, DEM-05, UX-01, UX-03, UX-05
-
-**Success Criteria** (what must be TRUE):
-  1. Dashboard automatically pulls POs, inventory levels, shipment tracking, and payment status from SellerCloud via API without manual intervention
-  2. Cross-brand demand summary shows forecasted units vs ordered units vs in-stock units per brand per month
-  3. Retailer-level breakdown displays what each retailer needs across all brands (TJX, HomeGoods, Walmart Canada, CVS, 5 Below, Ross, Burlington, Bealls, etc.)
-  4. SKU-level drill-down shows demand, ordered, available, in-transit, and balance for every SKU
-  5. Shortage alerts automatically flag SKUs where forecasted demand exceeds ordered + available inventory
-  6. Excess alerts automatically flag SKUs where ordered/available significantly exceeds forecasted demand (like Fomin's 226K vs 50K pattern)
-  7. Brand selector allows users to view all brands or filter to a single brand
-  8. Executive summary page provides one-screen health check with top alerts, key numbers, and action items
-  9. Navigation organizes views by brand and by function (demand, orders, cash flow)
-
-**Plans**: 4 plans in 3 waves
-
-Plans:
-- [x] 03-01-PLAN.md — SellerCloud API client with retry/backoff, sync tracking schema, sync tRPC router
-- [x] 03-02-PLAN.md — Demand aggregation tRPC router (cross-brand, retailer, SKU) and alerts calculation router
-- [x] 03-03-PLAN.md — Demand dashboard pages (cross-brand summary, retailer breakdown, SKU drill-down) with brand selector
-- [x] 03-04-PLAN.md — Executive summary page, sync management page, sidebar navigation update
-
-### Phase 4: Order Tracking & Role-Based Views
-**Goal**: Track complete PO lifecycle from China suppliers and retail customers, with role-specific dashboard views for each team member type
-
-**Depends on**: Phase 3
-
-**Requirements**: ORD-01, ORD-02, ORD-03, ORD-04, UX-02
-
-**Success Criteria** (what must be TRUE):
-  1. Supplier PO tracking displays internal POs to China with deposit status, production status, and shipping status
-  2. Retail PO tracking shows incoming POs from retailers with fulfillment status
-  3. Lead time visibility displays order-by dates and expected arrival dates per SKU (30-day for Fomin/Luna/EveryMood/Roofus, 60-day for HOP)
-  4. PO lifecycle timeline visualizes the pipeline: ordered → in production → shipped → in transit → arrived at warehouse → allocated
-  5. Role-based views show appropriate information for each user type (CEO: overview and alerts; Sales: retailer status and forecasts; Purchasing: supply gaps and PO tracking; Warehouse: inbound shipments and stock levels)
-
-**Plans**: 3 plans in 2 waves
-
-Plans:
-- [x] 04-01-PLAN.md — Tracking tRPC router, shared UI components (status badge, lead time badge, PO timeline, order status card), lead time utilities
-- [x] 04-02-PLAN.md — Supplier PO tracking pages (list + detail with timeline) and retail order tracking pages (list + detail)
-- [x] 04-03-PLAN.md — Role-based dashboards (CEO, Sales, Purchasing, Warehouse) and sidebar navigation update
+</details>
 
 ## Progress
 
-**Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4
-
-| Phase | Plans Complete | Status | Completed |
-|-------|----------------|--------|-----------|
-| 1. Foundation & Master Data | 3/3 | ✓ Complete | 2026-02-06 |
-| 2. Data Integration & Manual Entry | 3/3 | ✓ Complete | 2026-02-06 |
-| 3. SellerCloud Integration & Demand Visibility | 4/4 | ✓ Complete | 2026-02-06 |
-| 4. Order Tracking & Role-Based Views | 3/3 | ✓ Complete | 2026-02-06 |
+| Phase | Milestone | Plans Complete | Status | Completed |
+|-------|-----------|----------------|--------|-----------|
+| 1. Foundation & Master Data | v1.0 | 3/3 | Complete | 2026-02-06 |
+| 2. Data Integration & Manual Entry | v1.0 | 3/3 | Complete | 2026-02-06 |
+| 3. SellerCloud Integration & Demand Visibility | v1.0 | 4/4 | Complete | 2026-02-06 |
+| 4. Order Tracking & Role-Based Views | v1.0 | 3/3 | Complete | 2026-02-06 |
