@@ -10,10 +10,10 @@ Transform the admin panel into an operational command center with charts, time-s
 
 | ID | Requirement | Priority | Status |
 |----|------------|----------|--------|
-| VIZ-01 | Revenue trend line chart (last 6-12 months, all brands stacked) using Recharts | P0 | Pending |
-| VIZ-02 | Brand performance bar chart comparing revenue across brands | P0 | Pending |
-| VIZ-03 | Retailer revenue mix chart (horizontal bar or treemap) with brand breakdown | P1 | Pending |
-| VIZ-04 | Dashboard top strip with key KPIs: Revenue MTD, Units Shipped MTD, Open Alerts, Active POs | P0 | Pending |
+| VIZ-01 | Revenue trend line chart (last 6-12 months, all brands stacked) using Recharts | P0 | Complete |
+| VIZ-02 | Brand performance bar chart comparing revenue across brands | P0 | Complete |
+| VIZ-03 | Retailer revenue mix chart (horizontal bar or treemap) with brand breakdown | P1 | Complete |
+| VIZ-04 | Dashboard top strip with key KPIs: Revenue MTD, Units Shipped MTD, Open Alerts, Active POs | P0 | Complete |
 
 ### Time-Series Analytics (TSA)
 
@@ -61,10 +61,10 @@ Transform the admin panel into an operational command center with charts, time-s
 
 | Req ID | Gap Ref | Phase | Status |
 |--------|---------|-------|--------|
-| VIZ-01 | Gap 2, 5 | Phase 5 | Pending |
-| VIZ-02 | Gap 2, 3 | Phase 5 | Pending |
-| VIZ-03 | Gap 4 | Phase 5 | Pending |
-| VIZ-04 | Gap 1 | Phase 5 | Pending |
+| VIZ-01 | Gap 2, 5 | Phase 5 | Complete |
+| VIZ-02 | Gap 2, 3 | Phase 5 | Complete |
+| VIZ-03 | Gap 4 | Phase 5 | Complete |
+| VIZ-04 | Gap 1 | Phase 5 | Complete |
 | TSA-01 | Gap 5 | Phase 6 | Pending |
 | TSA-02 | Gap 5 | Phase 6 | Pending |
 | TSA-03 | Gap 5 | Phase 6 | Pending |

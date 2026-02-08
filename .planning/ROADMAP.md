@@ -21,7 +21,7 @@
 
 **Milestone Goal:** Transform the admin panel into an operational command center with interactive charts, time-series comparisons, inventory health tracking, and actionable alerts — all built on data already in the schema.
 
-- [ ] **Phase 5: Dashboard Charts & KPI Strip** - Interactive Recharts visualizations and real-time KPI indicators
+- [x] **Phase 5: Dashboard Charts & KPI Strip** - Interactive Recharts visualizations and real-time KPI indicators — completed 2026-02-08
 - [ ] **Phase 6: Time-Series Analytics & Sales Velocity** - Period-over-period comparisons, trend indicators, and top movers
 - [ ] **Phase 7: Forecast vs. Actual Analysis** - SKU-level forecast accuracy tracking with variance alerts
 - [ ] **Phase 8: Inventory Health Intelligence** - Days of supply, reorder dates, and stockout projections
@@ -40,8 +40,8 @@
   4. User can view a retailer revenue mix chart with brand breakdown showing which retailers drive the most revenue
 **Plans**: 2 plans
 Plans:
-- [ ] 05-01-PLAN.md — Install shadcn/ui charts + create dashboardRouter with 4 data endpoints
-- [ ] 05-02-PLAN.md — Build chart/KPI components and integrate into executive dashboard
+- [x] 05-01-PLAN.md — Install shadcn/ui charts + create dashboardRouter with 4 data endpoints
+- [x] 05-02-PLAN.md — Build chart/KPI components and integrate into executive dashboard
 
 ### Phase 6: Time-Series Analytics & Sales Velocity
 **Goal**: Team members can compare performance across time periods and instantly identify which SKUs are accelerating or declining, enabling proactive inventory and sales decisions
@@ -95,7 +95,7 @@ Plans:
 | 2. Data Integration & Manual Entry | v1.0 | 3/3 | Complete | 2026-02-06 |
 | 3. SellerCloud Integration & Demand Visibility | v1.0 | 4/4 | Complete | 2026-02-06 |
 | 4. Order Tracking & Role-Based Views | v1.0 | 3/3 | Complete | 2026-02-06 |
-| 5. Dashboard Charts & KPI Strip | v1.1 | 0/2 | Planned | - |
+| 5. Dashboard Charts & KPI Strip | v1.1 | 2/2 | Complete | 2026-02-08 |
 | 6. Time-Series Analytics & Sales Velocity | v1.1 | 0/0 | Not started | - |
 | 7. Forecast vs. Actual Analysis | v1.1 | 0/0 | Not started | - |
 | 8. Inventory Health Intelligence | v1.1 | 0/0 | Not started | - |
