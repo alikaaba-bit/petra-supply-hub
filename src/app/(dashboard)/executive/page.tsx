@@ -1,6 +1,10 @@
 "use client";
 
 import { StatCard } from "@/components/dashboard/stat-card";
+import { KpiStrip } from "@/components/dashboard/kpi-strip";
+import { RevenueTrendChart } from "@/components/dashboard/revenue-trend-chart";
+import { BrandPerformanceChart } from "@/components/dashboard/brand-performance-chart";
+import { RetailerMixChart } from "@/components/dashboard/retailer-mix-chart";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Package, Box, ShoppingCart, ShoppingBag, AlertTriangle, TrendingUp, ArrowRight, FileUp, RefreshCw } from "lucide-react";
@@ -17,6 +21,11 @@ export default function ExecutiveSummaryPage() {
   const { data: monthlySummary, isLoading: monthlyLoading } = trpc.demand.monthlySummary.useQuery({});
   const { data: forecastsCount } = trpc.import.forecasts.count.useQuery();
 
+  // New chart data queries
+  const { data: revenueTrend, isLoading: revenueTrendLoading } = trpc.dashboard.revenueTrend.useQuery({ months: 12 });
+  const { data: brandPerformance, isLoading: brandPerformanceLoading } = trpc.dashboard.brandPerformance.useQuery();
+  const { data: retailerMix, isLoading: retailerMixLoading } = trpc.dashboard.retailerMix.useQuery();
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -25,6 +34,18 @@ export default function ExecutiveSummaryPage() {
         <p className="text-muted-foreground">
           One-screen health check — {format(new Date(), "MMMM d, yyyy")}
         </p>
+      </div>
+
+      {/* KPI Strip */}
+      <KpiStrip />
+
+      {/* Revenue Trend Chart */}
+      <RevenueTrendChart data={revenueTrend ?? []} isLoading={revenueTrendLoading} />
+
+      {/* Brand Performance + Retailer Mix Charts */}
+      <div className="grid gap-4 md:grid-cols-2">
+        <BrandPerformanceChart data={brandPerformance ?? []} isLoading={brandPerformanceLoading} />
+        <RetailerMixChart data={retailerMix ?? []} isLoading={retailerMixLoading} />
       </div>
 
       {/* Key Numbers */}
