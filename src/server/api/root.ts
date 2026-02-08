@@ -9,6 +9,7 @@ import { sellercloudRouter } from "./routers/sellercloud";
 import { demandRouter } from "./routers/demand";
 import { alertsRouter } from "./routers/alerts";
 import { trackingRouter } from "./routers/tracking";
+import { dashboardRouter } from "./routers/dashboard";
 
 export const appRouter = router({
   brands: brandsRouter,
@@ -21,6 +22,7 @@ export const appRouter = router({
   demand: demandRouter,
   alerts: alertsRouter,
   tracking: trackingRouter,
+  dashboard: dashboardRouter,
 });
 
 export type AppRouter = typeof appRouter;
