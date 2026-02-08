@@ -340,6 +340,7 @@ export const inventory = pgTable(
     quantityOnHand: integer("quantity_on_hand").notNull().default(0),
     quantityAllocated: integer("quantity_allocated").default(0),
     quantityInTransit: integer("quantity_in_transit").default(0),
+    receivedDate: timestamp("received_date", { mode: "date" }),
     lastUpdated: timestamp("last_updated", { mode: "date" })
       .notNull()
       .defaultNow(),
@@ -780,6 +781,35 @@ export const brandScorecardsRelations = relations(brandScorecards, ({ one }) => 
 
 export const revenueTargetsRelations = relations(revenueTargets, ({ one }) => ({
   brand: one(brands, { fields: [revenueTargets.brandId], references: [brands.id] }),
+}));
+
+// ============================================================================
+// COGS MASTER — cost of goods reference for COGS validation
+// ============================================================================
+
+export const cogsMaster = pgTable(
+  "cogs_master",
+  {
+    id: serial("id").primaryKey(),
+    skuId: integer("sku_id")
+      .notNull()
+      .references(() => skus.id),
+    cogs: numeric("cogs", { precision: 10, scale: 2 }).notNull(),
+    effectiveDate: date("effective_date", { mode: "date" }).notNull(),
+    source: varchar("source", { length: 100 }),
+    createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
+  },
+  (table) => ({
+    skuIdx: index("cogs_master_sku_idx").on(table.skuId),
+    skuDateIdx: index("cogs_master_sku_date_idx").on(
+      table.skuId,
+      table.effectiveDate
+    ),
+  })
+);
+
+export const cogsMasterRelations = relations(cogsMaster, ({ one }) => ({
+  sku: one(skus, { fields: [cogsMaster.skuId], references: [skus.id] }),
 }));
 
 export const sellercloudSyncLogRelations = relations(
