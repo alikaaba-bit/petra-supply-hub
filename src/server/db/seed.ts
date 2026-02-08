@@ -17,7 +17,7 @@ async function seed() {
       {
         id: "ceo-kaaba",
         name: "Kaaba",
-        email: "kaaba@petrograms.com",
+        email: "kaaba@petrabrands.com",
         passwordHash,
         role: "ceo",
         active: true,
@@ -25,7 +25,7 @@ async function seed() {
       {
         id: "user-sales",
         name: "Sales Manager",
-        email: "sales@petrograms.com",
+        email: "sales@petrabrands.com",
         passwordHash,
         role: "editor",
         active: true,
@@ -33,7 +33,7 @@ async function seed() {
       {
         id: "user-purchasing",
         name: "Purchasing Manager",
-        email: "purchasing@petrograms.com",
+        email: "purchasing@petrabrands.com",
         passwordHash,
         role: "editor",
         active: true,
@@ -41,7 +41,7 @@ async function seed() {
       {
         id: "user-warehouse",
         name: "Warehouse Manager",
-        email: "warehouse@petrograms.com",
+        email: "warehouse@petrabrands.com",
         passwordHash,
         role: "viewer",
         active: true,
@@ -314,7 +314,7 @@ async function seed() {
 
     console.log("🎉 Database seeded successfully!");
     console.log("\nSummary:");
-    console.log("- 4 users (kaaba@petrograms.com, sales@, purchasing@, warehouse@)");
+    console.log("- 4 users (kaaba@petrabrands.com, sales@, purchasing@, warehouse@)");
     console.log("- 5 brands (Fomin, Luna Naturals, EveryMood, Roofus, House of Party)");
     console.log(`- ${skusList.length} SKUs generated programmatically`);
     console.log("- 16 retailers");

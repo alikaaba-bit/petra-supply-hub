@@ -44,7 +44,7 @@ If any of these fall behind, the demand calculations and alerts will be wrong.
 
 ## Sales Team
 
-**Login:** sales@petrograms.com
+**Login:** sales@petrabrands.com
 **Dashboard:** `/roles/sales` — shows retailer orders, demand by retailer, forecast summary
 
 ### What You See
@@ -117,7 +117,7 @@ This data feeds the sales performance tracking and helps validate whether foreca
 
 ## Purchasing / China Ops
 
-**Login:** purchasing@petrograms.com
+**Login:** purchasing@petrabrands.com
 **Dashboard:** `/roles/purchasing` — shows supply gaps, PO status, lead time alerts
 
 ### What You See
@@ -180,7 +180,7 @@ The system calculates order-by dates as: `need-by date - lead time days - 5 days
 
 ## Warehouse / Fulfillment
 
-**Login:** warehouse@petrograms.com
+**Login:** warehouse@petrabrands.com
 **Dashboard:** `/roles/warehouse` — shows inbound shipments, stock levels, items needing allocation
 
 ### What You See
@@ -229,7 +229,7 @@ When a shipment goes out to a retailer:
 
 ## CEO (Kaaba)
 
-**Login:** kaaba@petrograms.com
+**Login:** kaaba@petrabrands.com
 **Dashboard:** `/roles/ceo` — shows everything: alerts, order pipeline, demand health
 
 ### What You See
@@ -349,10 +349,10 @@ Sheet: (first sheet, any name)
 
 | Role | Email | Access |
 |------|-------|--------|
-| CEO | kaaba@petrograms.com | Everything — all pages, all dashboards |
-| Sales | sales@petrograms.com | Sales dashboard + demand views + orders + import |
-| Purchasing | purchasing@petrograms.com | Purchasing dashboard + PO tracking + demand views |
-| Warehouse | warehouse@petrograms.com | Warehouse dashboard + inventory + order status |
+| CEO | kaaba@petrabrands.com | Everything — all pages, all dashboards |
+| Sales | sales@petrabrands.com | Sales dashboard + demand views + orders + import |
+| Purchasing | purchasing@petrabrands.com | Purchasing dashboard + PO tracking + demand views |
+| Warehouse | warehouse@petrabrands.com | Warehouse dashboard + inventory + order status |
 
 ---
 

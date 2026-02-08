@@ -2,7 +2,7 @@
 
 ## What This Is
 
-A centralized supply chain dashboard for Petrograms (Petra Brands) that gives all teams — leadership, sales, purchasing, and warehouse — a single real-time view of demand forecasts, order status, inventory levels, and shipment tracking across all five brands (Fomin, Luna Naturals, EveryMood, Roofus, House of Party). Built with Next.js 16, TypeScript, Drizzle ORM, PostgreSQL, Auth.js v5, and tRPC v11. Replaces the current fragmented system of brand-specific Excel spreadsheets, WeChat conversations, ClickUp tasks, and SellerCloud lookups.
+A centralized supply chain dashboard for Petra Brands that gives all teams — leadership, sales, purchasing, and warehouse — a single real-time view of demand forecasts, order status, inventory levels, and shipment tracking across all five brands (Fomin, Luna Naturals, EveryMood, Roofus, House of Party). Built with Next.js 16, TypeScript, Drizzle ORM, PostgreSQL, Auth.js v5, and tRPC v11. Replaces the current fragmented system of brand-specific Excel spreadsheets, WeChat conversations, ClickUp tasks, and SellerCloud lookups.
 
 ## Core Value
 
@@ -88,7 +88,7 @@ Every team member can open one dashboard and instantly see: what's the demand, w
 
 ## Context
 
-**Company:** Petrograms / Petra Brands — consumer products holding company with 5 brands sold through major US retailers and off-price channels.
+**Company:** Petra Brands — consumer products holding company with 5 brands sold through major US retailers and off-price channels.
 
 **Brands and their profiles:**
 - **Fomin** — Clean towels. Highest volume. 12 SKUs. TJX, Kroger, KeHE. 30-day lead time.
