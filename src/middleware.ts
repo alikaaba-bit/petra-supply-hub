@@ -1,5 +1,7 @@
-import { auth } from "@/server/auth";
-import { NextResponse } from "next/server";
+import NextAuth from "next-auth";
+import { authConfig } from "@/server/auth.config";
+
+const { auth } = NextAuth(authConfig);
 
 export default auth((req) => {
   const { nextUrl } = req;
@@ -14,12 +16,12 @@ export default auth((req) => {
 
   // Allow auth routes and public files
   if (isApiAuthRoute || isPublicFile) {
-    return NextResponse.next();
+    return;
   }
 
   // Redirect logged-in users away from auth pages
   if (isAuthPage && isLoggedIn) {
-    return NextResponse.redirect(new URL("/", nextUrl.origin));
+    return Response.redirect(new URL("/", nextUrl.origin));
   }
 
   // Redirect non-logged-in users to login
@@ -27,10 +29,8 @@ export default auth((req) => {
     const callbackUrl = nextUrl.pathname + nextUrl.search;
     const loginUrl = new URL("/login", nextUrl.origin);
     loginUrl.searchParams.set("callbackUrl", callbackUrl);
-    return NextResponse.redirect(loginUrl);
+    return Response.redirect(loginUrl);
   }
-
-  return NextResponse.next();
 });
 
 export const config = {
