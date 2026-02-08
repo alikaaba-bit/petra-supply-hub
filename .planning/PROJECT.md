@@ -8,7 +8,7 @@ A centralized supply chain dashboard for Petra Brands that gives all teams — l
 
 Every team member can open one dashboard and instantly see: what's the demand, what's been ordered, what's in stock, what's arriving, and what cash is needed — across all brands and retailers.
 
-## Current State (v1.0 shipped 2026-02-07)
+## Current State (v1.1 in planning — 2026-02-08)
 
 **Tech stack:** Next.js 16 + TypeScript + Drizzle ORM + PostgreSQL + Auth.js v5 + tRPC v11 + shadcn/ui + Tailwind CSS 4
 
@@ -61,7 +61,42 @@ Every team member can open one dashboard and instantly see: what's the demand, w
 - ✓ Master data management (FND-03) — v1.0
 - ✓ Audit log (FND-04) — v1.0
 
-### Active
+### Active (v1.1 — Analytics & Visualization)
+
+**Charts & Visualizations**
+- [ ] Revenue trend line chart with brand stacking (VIZ-01)
+- [ ] Brand performance comparison bar chart (VIZ-02)
+- [ ] Retailer revenue mix chart with brand breakdown (VIZ-03)
+- [ ] Dashboard top strip with key KPIs (VIZ-04)
+
+**Time-Series Analytics**
+- [ ] Period-over-period: MTD vs last month with % change (TSA-01)
+- [ ] QoQ and YOY comparison views (TSA-02)
+- [ ] Trend arrows and delta indicators (TSA-03)
+
+**Forecast vs. Actual**
+- [ ] Forecast vs actual units comparison per SKU/month (FVA-01)
+- [ ] Variance highlighting: over/under-forecast risk (FVA-02)
+- [ ] Forecast accuracy percentage metric (FVA-03)
+
+**Inventory Health**
+- [ ] Days of supply per SKU (INV-01)
+- [ ] Color-coded inventory status bands (INV-02)
+- [ ] Reorder date calculation based on lead time (INV-03)
+- [ ] Stockout risk timeline (INV-04)
+
+**Actionable Alerts**
+- [ ] Reorder alerts with specific dates and SKU/retailer context (ALT-01)
+- [ ] Late PO alerts with follow-up guidance (ALT-02)
+- [ ] Forecast variance alerts >20% (ALT-03)
+- [ ] Action center section grouping alerts by severity (ALT-04)
+
+**Sales Velocity**
+- [ ] Top 10 SKUs leaderboard by revenue (VEL-01)
+- [ ] Biggest movers vs prior period (VEL-02)
+- [ ] Brand health signals per brand (VEL-03)
+
+### Deferred
 
 **Cash Flow View (deferred from v1)**
 - [ ] Deposit schedule: all upcoming deposits across brands by date (RMB and USD)
@@ -120,5 +155,7 @@ Every team member can open one dashboard and instantly see: what's the demand, w
 | PostgreSQL-level aggregation | SQL templates instead of client-side reduce | ✓ Good — performant demand calculations |
 | Manual sync only in v1.0 | Avoid complexity of cron scheduling | — Pending — needs automated sync in v2 |
 
+| Recharts for visualizations | Lightweight, composable, React-native charting | — Pending — v1.1 |
+
 ---
-*Last updated: 2026-02-07 after v1.0 milestone*
+*Last updated: 2026-02-08 — v1.1 milestone started*
