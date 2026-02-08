@@ -3,53 +3,58 @@
 import { StatCard } from "@/components/dashboard/stat-card";
 import { DollarSign, Package, AlertTriangle, ShoppingCart } from "lucide-react";
 import { trpc } from "@/lib/trpc";
-import { format } from "date-fns";
+
+const formatCurrency = (val: number) =>
+  new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+  }).format(val);
 
 export function KpiStrip() {
-  const { data: kpis, isLoading } = trpc.dashboard.kpiSummary.useQuery();
+  const { data: kpis, isLoading } = trpc.dashboard.kpiStrip.useQuery();
 
   return (
-    <div>
-      <div className="flex items-center gap-2 mb-3">
-        <h2 className="text-lg font-semibold">KPI Summary</h2>
-        <span className="text-sm text-muted-foreground">
-          ({format(new Date(), "MMM yyyy")} MTD)
-        </span>
-      </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <StatCard
-          title="Revenue MTD"
-          value={
-            kpis
-              ? kpis.revenueMTD.toLocaleString("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                  maximumFractionDigits: 0,
-                })
-              : "$0"
-          }
-          icon={DollarSign}
-          loading={isLoading}
-        />
-        <StatCard
-          title="Units Shipped MTD"
-          value={kpis?.unitsShippedMTD.toLocaleString() ?? 0}
-          icon={Package}
-          loading={isLoading}
-        />
-        <StatCard
-          title="Open Alerts"
-          value={kpis?.openAlerts ?? 0}
-          icon={AlertTriangle}
-          loading={isLoading}
-        />
-        <StatCard
-          title="Active POs"
-          value={kpis?.activePOs ?? 0}
-          icon={ShoppingCart}
-          loading={isLoading}
-        />
-      </div>
+    <div className="grid gap-4 md:grid-cols-4 sm:grid-cols-2">
+      <StatCard
+        title="Revenue MTD"
+        value={kpis ? formatCurrency(kpis.revenueMTD) : "$0"}
+        icon={DollarSign}
+        loading={isLoading}
+        trend={kpis?.revenueTrendPct}
+        subtitle="vs last month"
+        borderColor={
+          kpis
+            ? kpis.revenueTrendPct >= 0
+              ? "border-l-green-500"
+              : "border-l-red-500"
+            : undefined
+        }
+      />
+      <StatCard
+        title="Units Shipped MTD"
+        value={kpis?.unitsMTD.toLocaleString() ?? "0"}
+        icon={Package}
+        loading={isLoading}
+      />
+      <StatCard
+        title="SKUs at Risk"
+        value={kpis?.skusAtRisk ?? 0}
+        icon={AlertTriangle}
+        loading={isLoading}
+        borderColor={
+          kpis && kpis.skusAtRisk > 0 ? "border-l-red-500" : undefined
+        }
+      />
+      <StatCard
+        title="Active POs"
+        value={kpis?.activePOs ?? 0}
+        icon={ShoppingCart}
+        loading={isLoading}
+        subtitle={
+          kpis ? `${formatCurrency(kpis.activePOValue)} value` : undefined
+        }
+      />
     </div>
   );
 }

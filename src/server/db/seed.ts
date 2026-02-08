@@ -1,5 +1,5 @@
 import { db } from "./index";
-import { users, brands, skus, retailers, brandRetailers } from "./schema";
+import { users, brands, skus, retailers, brandRetailers, brandScorecards } from "./schema";
 import { sql, eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 import { readFileSync } from "fs";
@@ -301,7 +301,53 @@ async function seed() {
 
     console.log("✓ Brand-retailer mappings created");
 
-    // 6. Install audit triggers
+    // 6. Seed scorecard targets
+    console.log("Creating scorecard targets...");
+    const scorecardSeeds = [
+      { brand: "House of Party", month: "2026-01-01", target: 500000 },
+      { brand: "House of Party", month: "2026-02-01", target: 600000 },
+      { brand: "House of Party", month: "2026-03-01", target: 700000 },
+      { brand: "House of Party", month: "2026-04-01", target: 750000 },
+      { brand: "Fomin", month: "2026-01-01", target: 200000 },
+      { brand: "Fomin", month: "2026-02-01", target: 250000 },
+      { brand: "Fomin", month: "2026-03-01", target: 300000 },
+      { brand: "Fomin", month: "2026-04-01", target: 320000 },
+      { brand: "Luna Naturals", month: "2026-01-01", target: 150000 },
+      { brand: "Luna Naturals", month: "2026-02-01", target: 180000 },
+      { brand: "Luna Naturals", month: "2026-03-01", target: 200000 },
+      { brand: "Luna Naturals", month: "2026-04-01", target: 220000 },
+      { brand: "EveryMood", month: "2026-01-01", target: 300000 },
+      { brand: "EveryMood", month: "2026-02-01", target: 350000 },
+      { brand: "EveryMood", month: "2026-03-01", target: 400000 },
+      { brand: "EveryMood", month: "2026-04-01", target: 420000 },
+      { brand: "Roofus", month: "2026-01-01", target: 180000 },
+      { brand: "Roofus", month: "2026-02-01", target: 200000 },
+      { brand: "Roofus", month: "2026-03-01", target: 220000 },
+      { brand: "Roofus", month: "2026-04-01", target: 250000 },
+    ];
+
+    for (const sc of scorecardSeeds) {
+      const brandId = brandIds[sc.brand];
+      if (!brandId) continue;
+      try {
+        await db
+          .insert(brandScorecards)
+          .values({
+            brandId,
+            month: new Date(sc.month),
+            revenueTarget: String(sc.target),
+            channel: "all",
+            createdBy: "ceo-kaaba",
+          })
+          .onConflictDoNothing();
+      } catch {
+        // skip duplicates
+      }
+    }
+
+    console.log(`✓ ${scorecardSeeds.length} scorecard targets created`);
+
+    // 7. Install audit triggers
     console.log("Installing audit triggers...");
     const triggersSQL = readFileSync(
       join(__dirname, "triggers.sql"),

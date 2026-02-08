@@ -478,6 +478,61 @@ export const auditLog = pgTable(
 );
 
 // ============================================================================
+// BRAND SCORECARDS — Monthly Revenue Targets & QAQC
+// ============================================================================
+
+export const brandScorecards = pgTable(
+  "brand_scorecards",
+  {
+    id: serial("id").primaryKey(),
+    brandId: integer("brand_id")
+      .notNull()
+      .references(() => brands.id),
+    month: date("month", { mode: "date" }).notNull(),
+    revenueTarget: numeric("revenue_target", { precision: 12, scale: 2 }).notNull(),
+    unitsTarget: integer("units_target"),
+    channel: varchar("channel", { length: 50 }).notNull().default("all"),
+    notes: text("notes"),
+    createdBy: text("created_by").references(() => users.id),
+    createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { mode: "date" }).notNull().defaultNow(),
+  },
+  (table) => ({
+    brandMonthChannelUnique: unique("brand_month_channel_unique").on(
+      table.brandId,
+      table.month,
+      table.channel
+    ),
+    brandIdIdx: index("brand_scorecards_brand_id_idx").on(table.brandId),
+    monthIdx: index("brand_scorecards_month_idx").on(table.month),
+  })
+);
+
+// ============================================================================
+// REVENUE TARGETS — Monthly Revenue Targets from Scorecard
+// ============================================================================
+
+export const revenueTargets = pgTable(
+  "revenue_targets",
+  {
+    id: serial("id").primaryKey(),
+    brandId: integer("brand_id")
+      .notNull()
+      .references(() => brands.id),
+    month: date("month", { mode: "date" }).notNull(),
+    revenueTarget: numeric("revenue_target", { precision: 12, scale: 2 }).notNull(),
+    channel: varchar("channel", { length: 20 }).notNull().default("all"),
+    createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { mode: "date" }).notNull().defaultNow(),
+  },
+  (table) => ({
+    uniqueBrandMonthChannel: unique().on(table.brandId, table.month, table.channel),
+    brandIdx: index("revenue_targets_brand_idx").on(table.brandId),
+    monthIdx: index("revenue_targets_month_idx").on(table.month),
+  })
+);
+
+// ============================================================================
 // SELLERCLOUD SYNC TRACKING
 // ============================================================================
 
@@ -558,6 +613,8 @@ export const brandsRelations = relations(brands, ({ many }) => ({
   brandRetailers: many(brandRetailers),
   purchaseOrders: many(purchaseOrders),
   retailOrders: many(retailOrders),
+  scorecards: many(brandScorecards),
+  targets: many(revenueTargets),
 }));
 
 export const skusRelations = relations(skus, ({ one, many }) => ({
@@ -708,6 +765,21 @@ export const paymentsRelations = relations(payments, ({ one }) => ({
     fields: [payments.createdBy],
     references: [users.id],
   }),
+}));
+
+export const brandScorecardsRelations = relations(brandScorecards, ({ one }) => ({
+  brand: one(brands, {
+    fields: [brandScorecards.brandId],
+    references: [brands.id],
+  }),
+  createdByUser: one(users, {
+    fields: [brandScorecards.createdBy],
+    references: [users.id],
+  }),
+}));
+
+export const revenueTargetsRelations = relations(revenueTargets, ({ one }) => ({
+  brand: one(brands, { fields: [revenueTargets.brandId], references: [brands.id] }),
 }));
 
 export const sellercloudSyncLogRelations = relations(

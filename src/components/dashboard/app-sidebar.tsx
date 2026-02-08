@@ -13,18 +13,16 @@ import {
   SidebarHeader,
 } from "@/components/ui/sidebar";
 import {
-  LayoutDashboard,
   Package,
   Box,
   Store,
   FileText,
-  Upload,
+  Database,
   TrendingUp,
   ShoppingCart,
   ShoppingBag,
   AlertTriangle,
   Activity,
-  RefreshCw,
   Truck,
   ClipboardList,
   BarChart3,
@@ -39,11 +37,6 @@ const navSections = [
   {
     label: "Overview",
     items: [
-      {
-        title: "Dashboard",
-        href: "/",
-        icon: LayoutDashboard,
-      },
       {
         title: "Executive Summary",
         href: "/executive",
@@ -90,9 +83,9 @@ const navSections = [
     label: "Data",
     items: [
       {
-        title: "Import",
+        title: "Data Pipeline",
         href: "/import",
-        icon: Upload,
+        icon: Database,
       },
       {
         title: "Forecasts",
@@ -164,11 +157,6 @@ const navSections = [
   {
     label: "System",
     items: [
-      {
-        title: "SellerCloud Sync",
-        href: "/sync",
-        icon: RefreshCw,
-      },
       {
         title: "Audit Log",
         href: "/audit",
