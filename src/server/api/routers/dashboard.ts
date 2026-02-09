@@ -608,8 +608,15 @@ export const dashboardRouter = router({
   // ==========================================================================
   kpiStrip: protectedProcedure.query(async ({ ctx }) => {
     const db = ctx.db;
-    const currentMonth = startOfMonth(new Date());
-    const lastMonth = startOfMonth(subMonths(new Date(), 1));
+
+    // Use latest month with actual sales data (not necessarily current calendar month)
+    const [latestMonthRow] = await db
+      .select({ month: sql<Date>`MAX(${retailSales.month})` })
+      .from(retailSales);
+    const latestMonth = latestMonthRow?.month
+      ? startOfMonth(new Date(latestMonthRow.month))
+      : startOfMonth(new Date());
+    const prevMonth = startOfMonth(subMonths(latestMonth, 1));
 
     const [currentRev] = await db
       .select({
@@ -617,22 +624,32 @@ export const dashboardRouter = router({
         units: sql<string>`CAST(COALESCE(SUM(${retailSales.unitsSold}), 0) AS TEXT)`,
       })
       .from(retailSales)
-      .where(eq(retailSales.month, currentMonth));
+      .where(eq(retailSales.month, latestMonth));
 
     const [lastRev] = await db
       .select({
         revenue: sql<string>`CAST(COALESCE(SUM(${retailSales.revenue}), 0) AS TEXT)`,
       })
       .from(retailSales)
-      .where(eq(retailSales.month, lastMonth));
+      .where(eq(retailSales.month, prevMonth));
 
-    // SKUs at risk: count inventory items with low stock
+    // SKUs at risk: only count SKUs that have recent sales (last 6 months) AND low stock
+    const sixMonthsAgo = startOfMonth(subMonths(latestMonth, 6));
     const [atRiskCount] = await db
       .select({
-        count: sql<string>`CAST(COUNT(*) AS TEXT)`,
+        count: sql<string>`CAST(COUNT(DISTINCT ${inventory.skuId}) AS TEXT)`,
       })
       .from(inventory)
-      .where(sql`${inventory.quantityOnHand} < 50`);
+      .innerJoin(
+        retailSales,
+        eq(inventory.skuId, retailSales.skuId)
+      )
+      .where(
+        and(
+          sql`${inventory.quantityOnHand} < 50`,
+          gte(retailSales.month, sixMonthsAgo)
+        )
+      );
 
     const [poActive] = await db
       .select({
@@ -659,6 +676,7 @@ export const dashboardRouter = router({
       skusAtRisk: Number(atRiskCount?.count ?? 0),
       activePOs: Number(poActive?.count ?? 0),
       activePOValue: Number(poActive?.value ?? 0),
+      dataMonth: format(latestMonth, "MMM yyyy"),
     };
   }),
 
@@ -667,8 +685,15 @@ export const dashboardRouter = router({
   // ==========================================================================
   brandHealth: protectedProcedure.query(async ({ ctx }) => {
     const db = ctx.db;
-    const currentMonth = startOfMonth(new Date());
-    const lastMonth = startOfMonth(subMonths(new Date(), 1));
+
+    // Use latest month with actual sales data
+    const [latestMonthRow] = await db
+      .select({ month: sql<Date>`MAX(${retailSales.month})` })
+      .from(retailSales);
+    const currentMonth = latestMonthRow?.month
+      ? startOfMonth(new Date(latestMonthRow.month))
+      : startOfMonth(new Date());
+    const lastMonth = startOfMonth(subMonths(currentMonth, 1));
 
     const allBrands = await db.query.brands.findMany({
       where: eq(brands.active, true),
@@ -797,9 +822,16 @@ export const dashboardRouter = router({
     .input(z.object({ months: z.number().default(12) }))
     .query(async ({ ctx, input }) => {
       const db = ctx.db;
-      const endMonth = startOfMonth(new Date());
+
+      // Anchor to latest month with data, not current calendar month
+      const [latestRow] = await db
+        .select({ month: sql<Date>`MAX(${retailSales.month})` })
+        .from(retailSales);
+      const endMonth = latestRow?.month
+        ? startOfMonth(new Date(latestRow.month))
+        : startOfMonth(new Date());
       const startMonth = startOfMonth(
-        subMonths(new Date(), input.months - 1)
+        subMonths(endMonth, input.months - 1)
       );
 
       const results = await db
@@ -837,8 +869,16 @@ export const dashboardRouter = router({
     .input(z.object({ months: z.number().default(3) }))
     .query(async ({ ctx, input }) => {
       const db = ctx.db;
+
+      // Anchor to latest month with data
+      const [latestRow] = await db
+        .select({ month: sql<Date>`MAX(${retailSales.month})` })
+        .from(retailSales);
+      const latestMonth = latestRow?.month
+        ? startOfMonth(new Date(latestRow.month))
+        : startOfMonth(new Date());
       const startMonth = startOfMonth(
-        subMonths(new Date(), input.months - 1)
+        subMonths(latestMonth, input.months - 1)
       );
 
       const results = await db

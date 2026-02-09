@@ -17,12 +17,12 @@ export function KpiStrip() {
   return (
     <div className="grid gap-4 md:grid-cols-4 sm:grid-cols-2">
       <StatCard
-        title="Revenue MTD"
+        title={kpis?.dataMonth ? `Revenue ${kpis.dataMonth}` : "Revenue MTD"}
         value={kpis ? formatCurrency(kpis.revenueMTD) : "$0"}
         icon={DollarSign}
         loading={isLoading}
         trend={kpis?.revenueTrendPct}
-        subtitle="vs last month"
+        subtitle="vs prior month"
         borderColor={
           kpis
             ? kpis.revenueTrendPct >= 0
@@ -32,7 +32,7 @@ export function KpiStrip() {
         }
       />
       <StatCard
-        title="Units Shipped MTD"
+        title={kpis?.dataMonth ? `Units ${kpis.dataMonth}` : "Units Shipped MTD"}
         value={kpis?.unitsMTD.toLocaleString() ?? "0"}
         icon={Package}
         loading={isLoading}
