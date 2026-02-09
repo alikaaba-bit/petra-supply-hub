@@ -93,17 +93,18 @@ function normalizeName(raw: string): string | null {
 }
 
 // ---------------------------------------------------------------------------
-// Column indices (1-based, matching the Sale Data sheet layout)
+// Column indices (1-based for ExcelJS, matching the Revenue Sheet layout)
 // ---------------------------------------------------------------------------
 
-// ExcelJS uses 1-based column indices
-const COL_SHIP_DATE = 3; // Col C: Ship Date (datetime) — sales month
-const COL_COMPANY = 10; // Col J: Company (brand name)
-const COL_SKU = 12; // Col L: SKU
-const COL_WHOLESALE_CUSTOMER = 25; // Col Y: Wholesale Customer (retailer name)
-const COL_QTY_SOLD = 26; // Col Z: Qty Sold
-const COL_QTY_RETURNED = 27; // Col AA: Qty Returned
-const COL_TOTAL_REVENUE = 38; // Col AL: Total Revenue
+// Revenue Sheet columns (1-based)
+const COL_COMPANY_NAME = 9;    // Col I: CompanyName (retailer)
+const COL_TIME_OF_ORDER = 12;  // Col L: Time of Order
+const COL_STATUS_CODE = 17;    // Col Q: StatusCode
+const COL_SHIP_DATE = 23;      // Col W: ShipDate
+const COL_PRODUCT_ID = 57;     // Col BE: ProductID (SKU)
+const COL_QTY = 58;            // Col BF: Qty
+const COL_TOTAL_REVENUE = 60;  // Col BH: Total Revenue
+const COL_BUSINESS_NAME = 73;  // Col BU: BusinessName
 
 // ---------------------------------------------------------------------------
 // Main
@@ -112,7 +113,7 @@ const COL_TOTAL_REVENUE = 38; // Col AL: Total Revenue
 async function main() {
   console.log("============================================================");
   console.log("  Petra Supply Hub — Retail Sales Import");
-  console.log("  Source: /tmp/retail-sales.xlsx (Sale Data sheet)");
+  console.log("  Source: /tmp/retail-sales.xlsx (Revenue Sheet)");
   console.log("============================================================");
   console.log("");
 
@@ -149,9 +150,9 @@ async function main() {
   const workbook = new ExcelJS.Workbook();
   await workbook.xlsx.readFile(filePath);
 
-  const sheet = workbook.getWorksheet("Sale Data") || workbook.worksheets[0];
+  const sheet = workbook.getWorksheet("Revenue Sheet") || workbook.worksheets[0];
   if (!sheet) {
-    console.error("ERROR: No 'Sale Data' worksheet found.");
+    console.error("ERROR: No 'Revenue Sheet' worksheet found.");
     process.exit(1);
   }
 
@@ -163,13 +164,13 @@ async function main() {
   // Step 1: Delete existing retail sales from previous imports
   // ------------------------------------------------------------------
 
-  console.log("[2] Deleting existing retail sales (source IN ('sellercloud', 'sellercloud-orders')) ...");
+  console.log("[2] Deleting existing retail sales (source IN ('sellercloud', 'sellercloud-orders', 'revenue-sheet', 'revenue-sheet')) ...");
 
   await db
     .delete(retailSales)
-    .where(inArray(retailSales.source, ["sellercloud", "sellercloud-orders"]));
+    .where(inArray(retailSales.source, ["sellercloud", "sellercloud-orders", "revenue-sheet", "revenue-sheet"]));
 
-  console.log("  Deleted existing sellercloud/sellercloud-orders retail sales rows.");
+  console.log("  Deleted existing import retail sales rows.");
   console.log("");
 
   // ------------------------------------------------------------------
@@ -198,51 +199,59 @@ async function main() {
   sheet.eachRow({ includeEmpty: false }, (row, rowNumber) => {
     if (rowNumber === 1) return; // skip header
 
-    // Parse ship date
-    const dateVal = row.getCell(COL_SHIP_DATE).value;
-    const shipDate = parseExcelDate(dateVal);
+    // Filter to Completed orders only
+    const status = cellStr(row, COL_STATUS_CODE);
+    if (status && status !== "Completed") {
+      rowsSkippedNoDate++; // reuse counter for non-completed
+      return;
+    }
+
+    // Parse date: prefer ShipDate, fall back to Time of Order
+    let shipDate = parseExcelDate(row.getCell(COL_SHIP_DATE).value);
+    if (!shipDate) {
+      shipDate = parseExcelDate(row.getCell(COL_TIME_OF_ORDER).value);
+    }
     if (!shipDate) {
       rowsSkippedNoDate++;
       return;
     }
 
-    // Parse wholesale customer
-    const customerRaw = cellStr(row, COL_WHOLESALE_CUSTOMER);
+    // Parse customer: prefer BusinessName, fall back to CompanyName
+    let customerRaw = cellStr(row, COL_BUSINESS_NAME);
+    if (!customerRaw) {
+      customerRaw = cellStr(row, COL_COMPANY_NAME);
+    }
     const customerName = normalizeName(customerRaw);
     if (!customerName) {
       rowsSkippedNoCustomer++;
       return;
     }
 
-    // Parse SKU
-    const skuCode = cellStr(row, COL_SKU);
+    // Parse SKU (ProductID)
+    const skuCode = cellStr(row, COL_PRODUCT_ID);
     if (!skuCode) {
       rowsSkippedNoSku++;
       return;
     }
 
-    // Parse brand name
-    const brandName = cellStr(row, COL_COMPANY);
-
-    // Parse quantities and revenue
-    const qtySold = cellNum(row, COL_QTY_SOLD);
-    const qtyReturned = cellNum(row, COL_QTY_RETURNED);
+    // Parse quantity and revenue
+    const qtySold = cellNum(row, COL_QTY);
     const totalRevenue = cellNum(row, COL_TOTAL_REVENUE);
 
     saleRows.push({
       shipDate,
-      brandName,
+      brandName: "", // not needed — derived from SKU lookup
       skuCode,
       customerName,
       qtySold,
-      qtyReturned,
+      qtyReturned: 0,
       totalRevenue,
     });
 
     uniqueCustomers.add(customerName);
 
     rowsRead++;
-    if (rowsRead % 200 === 0) {
+    if (rowsRead % 500 === 0) {
       console.log(`  Read ${rowsRead} rows ...`);
     }
   });
@@ -405,14 +414,14 @@ async function main() {
           month: agg.monthDate,
           unitsSold,
           revenue,
-          source: "retail-sales-sheet",
+          source: "revenue-sheet",
         })
         .onConflictDoUpdate({
           target: [retailSales.skuId, retailSales.retailerId, retailSales.month],
           set: {
             unitsSold: sql`EXCLUDED.units_sold`,
             revenue: sql`EXCLUDED.revenue`,
-            source: sql`'retail-sales-sheet'`,
+            source: sql`'revenue-sheet'`,
             updatedAt: sql`NOW()`,
           },
         });
