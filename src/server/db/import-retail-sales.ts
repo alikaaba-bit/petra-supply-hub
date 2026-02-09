@@ -164,11 +164,11 @@ async function main() {
   // Step 1: Delete existing retail sales from previous imports
   // ------------------------------------------------------------------
 
-  console.log("[2] Deleting existing retail sales (source IN ('sellercloud', 'sellercloud-orders', 'revenue-sheet', 'revenue-sheet')) ...");
+  console.log("[2] Deleting existing retail sales (source IN ('sellercloud', 'sellercloud-orders', 'retail-sales-sheet', 'revenue-sheet')) ...");
 
   await db
     .delete(retailSales)
-    .where(inArray(retailSales.source, ["sellercloud", "sellercloud-orders", "revenue-sheet", "revenue-sheet"]));
+    .where(inArray(retailSales.source, ["sellercloud", "sellercloud-orders", "retail-sales-sheet", "revenue-sheet"]));
 
   console.log("  Deleted existing import retail sales rows.");
   console.log("");
