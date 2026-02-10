@@ -79,6 +79,11 @@ export async function processInventoryFile(
   const costCol = colMap["cost"] ?? colMap["unit cost"] ?? colMap["cost / unit"];
   const statusCol =
     colMap["productstatus"] ?? colMap["product status"] ?? colMap["status"];
+  const stockAgeCol =
+    colMap["stock age (days since last receiving)"] ??
+    colMap["stock age"] ??
+    colMap["stockage"] ??
+    colMap["days since last receiving"];
 
   if (!productIdCol || !companyCol) {
     throw new Error(
@@ -98,6 +103,7 @@ export async function processInventoryFile(
     skuId: number;
     quantityOnHand: number;
     quantityInTransit: number;
+    receivedDate: Date | null;
   }[] = [];
 
   // Process data rows
@@ -133,6 +139,7 @@ export async function processInventoryFile(
     onOrder: number;
     cost: number;
     isActive: boolean;
+    stockAgeDays: number;
   }
 
   const rows: InventoryRow[] = [];
@@ -172,6 +179,9 @@ export async function processInventoryFile(
       isActive: statusCol
         ? cellStr(row.getCell(statusCol).value).toLowerCase() === "active"
         : true,
+      stockAgeDays: stockAgeCol
+        ? parseNum(row.getCell(stockAgeCol).value)
+        : 0,
     });
   });
 
@@ -222,10 +232,18 @@ export async function processInventoryFile(
         result.recordsCreated++;
       }
 
+      // Calculate receivedDate from stock age days
+      let receivedDate: Date | null = null;
+      if (row.stockAgeDays > 0) {
+        receivedDate = new Date();
+        receivedDate.setDate(receivedDate.getDate() - row.stockAgeDays);
+      }
+
       inventoryRows.push({
         skuId,
         quantityOnHand: row.usaWarehouse + row.fbaWarehouse,
         quantityInTransit: row.onOrder,
+        receivedDate,
       });
     } catch (err) {
       result.errors.push(
@@ -251,6 +269,7 @@ export async function processInventoryFile(
             quantityOnHand: r.quantityOnHand,
             quantityInTransit: r.quantityInTransit,
             quantityAllocated: 0,
+            receivedDate: r.receivedDate,
             source: "drivehq-inventory",
             lastUpdated: new Date(),
           }))
@@ -259,6 +278,7 @@ export async function processInventoryFile(
           set: {
             quantityOnHand: sql`EXCLUDED.quantity_on_hand`,
             quantityInTransit: sql`EXCLUDED.quantity_in_transit`,
+            receivedDate: sql`EXCLUDED.received_date`,
             source: sql`'drivehq-inventory'`,
             lastUpdated: sql`NOW()`,
           },
