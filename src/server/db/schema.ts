@@ -552,6 +552,8 @@ export const sellercloudSyncLog = pgTable(
     recordsUpdated: integer("records_updated").default(0),
     errorMessage: text("error_message"),
     triggeredBy: text("triggered_by").references(() => users.id),
+    fileName: varchar("file_name", { length: 255 }),
+    syncSource: varchar("sync_source", { length: 50 }).default("sellercloud-api"),
   },
   (table) => ({
     entityTypeStartedIdx: index("sc_sync_log_entity_started_idx").on(

@@ -8,7 +8,8 @@ import {
   inventory,
   skus,
 } from "@/server/db/schema";
-import { eq, desc, and } from "drizzle-orm";
+import { eq, desc, and, like } from "drizzle-orm";
+import { runDriveHQSync } from "@/server/services/drivehq/sync-coordinator";
 
 /**
  * Map SellerCloud PO status to local status values
@@ -401,4 +402,36 @@ export const sellercloudRouter = router({
 
       return lastSync[0] ?? null;
     }),
+
+  /**
+   * Trigger a manual DriveHQ sync (all 3 entities)
+   */
+  triggerDriveHQSync: protectedProcedure.mutation(async ({ ctx }) => {
+    const result = await runDriveHQSync(ctx.session.user.id);
+    return result;
+  }),
+
+  /**
+   * Get DriveHQ sync status — latest sync per entity type
+   */
+  driveHQSyncStatus: protectedProcedure.query(async ({ ctx }) => {
+    const entityTypes = ["drivehq-inventory", "drivehq-pnl", "drivehq-orders"];
+    const statuses = [];
+
+    for (const entityType of entityTypes) {
+      const latest = await ctx.db
+        .select()
+        .from(sellercloudSyncLog)
+        .where(eq(sellercloudSyncLog.entityType, entityType))
+        .orderBy(desc(sellercloudSyncLog.syncStartedAt))
+        .limit(1);
+
+      statuses.push({
+        entityType,
+        lastSync: latest[0] ?? null,
+      });
+    }
+
+    return statuses;
+  }),
 });

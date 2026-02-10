@@ -9,13 +9,14 @@ export default auth((req) => {
 
   const isAuthPage = nextUrl.pathname.startsWith("/login");
   const isApiAuthRoute = nextUrl.pathname.startsWith("/api/auth");
+  const isApiCronRoute = nextUrl.pathname.startsWith("/api/cron");
   const isPublicFile =
     nextUrl.pathname.startsWith("/_next") ||
     nextUrl.pathname.startsWith("/favicon.ico") ||
     nextUrl.pathname.includes(".");
 
-  // Allow auth routes and public files
-  if (isApiAuthRoute || isPublicFile) {
+  // Allow auth routes, cron routes (use their own auth), and public files
+  if (isApiAuthRoute || isApiCronRoute || isPublicFile) {
     return;
   }
 
