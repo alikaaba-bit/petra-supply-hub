@@ -124,7 +124,7 @@ export const salesPushRouter = router({
         const ageBucket = getAgeBucket(stockAgeDays);
         const inventoryValue = unitsOnHand * cogs;
         const wholesaleValue = unitsOnHand * wholesalePrice;
-        const valueAtRisk = stockAgeDays > 30 ? unitsOnHand * cogs : 0;
+        const valueAtRisk = stockAgeDays > 90 ? unitsOnHand * cogs : 0;
 
         const discountTier = getDiscountTier(stockAgeDays);
         const discountedPrice = getDiscountedPrice(
@@ -276,9 +276,11 @@ export const salesPushRouter = router({
         const value = units * cogs;
 
         totalInventoryValue += value;
+        if (ageDays > 90) {
+          skuCountAtRisk++;
+        }
         if (ageDays > 30) {
           valueOver30d += value;
-          skuCountAtRisk++;
         }
         if (ageDays > 60) valueOver60d += value;
         if (ageDays > 90) valueOver90d += value;
@@ -293,11 +295,11 @@ export const salesPushRouter = router({
         valueOver60d,
         valueOver90d,
         valueOver120d,
-        totalAtRisk: valueOver30d,
+        totalAtRisk: valueOver90d,
         totalInventoryValue,
         atRiskPct:
           totalInventoryValue > 0
-            ? valueOver30d / totalInventoryValue
+            ? valueOver90d / totalInventoryValue
             : 0,
         skuCountAtRisk,
         skuCount120Plus,
@@ -368,7 +370,7 @@ export const salesPushRouter = router({
         const ageDays = differenceInDays(now, ageRef);
         const ageBucket = getAgeBucket(ageDays);
         const value = units * cogs;
-        const valueAtRisk = ageDays > 30 ? value : 0;
+        const valueAtRisk = ageDays > 90 ? value : 0;
 
         skuRisks.push({
           skuCode: row.skuCode,
@@ -511,7 +513,7 @@ export const salesPushRouter = router({
         const ageRef = row.receivedDate ?? row.lastUpdated ?? now;
         const ageDays = differenceInDays(now, ageRef);
         const ageBucket = getAgeBucket(ageDays);
-        const valueAtRisk = ageDays > 30 ? units * cogs : 0;
+        const valueAtRisk = ageDays > 90 ? units * cogs : 0;
 
         if (cogs === 0) cogsWarnings++;
 
