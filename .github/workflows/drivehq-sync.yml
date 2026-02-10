@@ -1,0 +1,37 @@
+name: DriveHQ Data Sync
+
+on:
+  schedule:
+    # Run every hour at minute 5 (avoids exact hour congestion)
+    - cron: '5 * * * *'
+  workflow_dispatch: # Allow manual trigger from GitHub Actions UI
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Trigger DriveHQ sync
+        run: |
+          response=$(curl -s -w "\n%{http_code}" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            "${{ secrets.SYNC_ENDPOINT_URL }}")
+
+          http_code=$(echo "$response" | tail -1)
+          body=$(echo "$response" | head -n -1)
+
+          echo "HTTP Status: $http_code"
+          echo "Response: $body"
+
+          if [ "$http_code" != "200" ]; then
+            echo "::error::Sync failed with HTTP $http_code"
+            exit 1
+          fi
+
+          # Check if any entity failed
+          failed=$(echo "$body" | jq -r '.results[] | select(.status == "failed") | .entityType' 2>/dev/null)
+          if [ -n "$failed" ]; then
+            echo "::warning::Some entities failed: $failed"
+          fi
+
+          echo "$body" | jq '.' 2>/dev/null || echo "$body"
