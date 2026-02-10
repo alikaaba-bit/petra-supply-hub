@@ -79,12 +79,6 @@ export async function processInventoryFile(
   const costCol = colMap["cost"] ?? colMap["unit cost"] ?? colMap["cost / unit"];
   const statusCol =
     colMap["productstatus"] ?? colMap["product status"] ?? colMap["status"];
-  const stockAgeCol =
-    colMap["stock age (days since last receiving)"] ??
-    colMap["stock age"] ??
-    colMap["stockage"] ??
-    colMap["days since last receiving"];
-
   if (!productIdCol || !companyCol) {
     throw new Error(
       `Missing required columns. Found: ${Object.keys(colMap).join(", ")}`
@@ -139,7 +133,6 @@ export async function processInventoryFile(
     onOrder: number;
     cost: number;
     isActive: boolean;
-    stockAgeDays: number;
   }
 
   const rows: InventoryRow[] = [];
@@ -179,9 +172,6 @@ export async function processInventoryFile(
       isActive: statusCol
         ? cellStr(row.getCell(statusCol).value).toLowerCase() === "active"
         : true,
-      stockAgeDays: stockAgeCol
-        ? parseNum(row.getCell(stockAgeCol).value)
-        : 0,
     });
   });
 
@@ -232,18 +222,11 @@ export async function processInventoryFile(
         result.recordsCreated++;
       }
 
-      // Calculate receivedDate from stock age days
-      let receivedDate: Date | null = null;
-      if (row.stockAgeDays > 0) {
-        receivedDate = new Date();
-        receivedDate.setDate(receivedDate.getDate() - row.stockAgeDays);
-      }
-
       inventoryRows.push({
         skuId,
         quantityOnHand: row.usaWarehouse + row.fbaWarehouse,
         quantityInTransit: row.onOrder,
-        receivedDate,
+        receivedDate: null, // will be restored from saved values below
       });
     } catch (err) {
       result.errors.push(
@@ -253,7 +236,24 @@ export async function processInventoryFile(
   }
 
   // Transactional replace: DELETE all drivehq-inventory, INSERT fresh
+  // Preserve receivedDate from existing rows (DriveHQ file doesn't include stock age)
   if (inventoryRows.length > 0) {
+    // Save existing receivedDate values before DELETE
+    const existingInv = await db
+      .select({ skuId: inventory.skuId, receivedDate: inventory.receivedDate })
+      .from(inventory);
+    const savedReceivedDates = new Map<number, Date | null>();
+    for (const row of existingInv) {
+      if (row.receivedDate) {
+        savedReceivedDates.set(row.skuId, row.receivedDate);
+      }
+    }
+
+    // Restore saved receivedDate for each inventory row
+    for (const row of inventoryRows) {
+      row.receivedDate = savedReceivedDates.get(row.skuId) ?? null;
+    }
+
     await db.transaction(async (tx) => {
       // Delete existing drivehq inventory records
       await tx
